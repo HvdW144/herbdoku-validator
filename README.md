@@ -1,2 +1,19 @@
-# npm-ts-template
-A template for a npm project using typescript (and tsup)
+# Herbdoku - sudoku validator
+
+## Description
+
+## Getting started
+
+### Setup Herbdoku
+
+### How to use
+
+## Vision of the project
+
+## Contributing
+
+## Features
+
+## License
+
+For the license, see [LICENSE](LICENSE).
