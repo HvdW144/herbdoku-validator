@@ -6,6 +6,8 @@
 ## Related Issue(s)
 [If this pull request addresses or relates to any GitHub issues, mention them here using the syntax "Fixes #IssueNumber".]
 
+<!-- If you want to check checkboxes, place an 'x' inside the brackets -->
+
 ## Type of Change
 - [ ] Bug fix
 - [ ] New feature
