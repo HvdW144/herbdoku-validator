@@ -26,6 +26,7 @@ Please ensure that your pull request meets the following criteria:
 - [ ] I have tested my changes thoroughly, including edge cases.
 - [ ] I have ensured that all existing tests pass successfully.
 - [ ] I have added new tests to cover my changes, if applicable.
+- [ ] I have added all applying labels to the pull request.
 
 ## Additional Information
 [Provide any additional information or context that might be helpful for reviewers.]
