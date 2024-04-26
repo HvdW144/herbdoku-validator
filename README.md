@@ -8,7 +8,11 @@ This is a open-source validator for advanced sudoku's, it is based on the sudoku
 
 ### Setup Herbdoku
 
+-
+
 ### How to use
+
+-
 
 ## Vision of the project
 
@@ -21,6 +25,8 @@ Especially front-end developers of sudokupads might be happy with something like
 This is an open-source project and such everyone is free to contribute (NOTE: Not every contributor will necessarily be explicitly mentioned. This might change in the future.
 
 ## Features
+
+-
 
 ## License
 
