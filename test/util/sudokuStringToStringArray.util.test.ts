@@ -1,4 +1,4 @@
-import { sudokuStringToStringArray } from "../../src/util/sudokuStringToStringArray.util";
+import { sudokuStringToStringArray } from "../../src/util/stringManipulation.util";
 
 describe("stringToStringArray", () => {
   it("should convert a valid Sudoku string of 81 characters (grid size 9) to an array", () => {
