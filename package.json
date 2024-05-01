@@ -8,7 +8,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup index.ts --format cjs,esm --dts",
+    "build": "tsup",
     "lint": "tsc",
     "test": "jest test/",
     "test:watch": "jest test/ --watch"
@@ -16,6 +16,7 @@
   "directories": {
     "test": "test"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/HvdW144/herbdoku-validator.git"
