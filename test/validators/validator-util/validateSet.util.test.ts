@@ -12,7 +12,7 @@ describe("validateSet", () => {
     expect(result).toStrictEqual([]);
   });
 
-  it("validateSetNoDoubles - should return array with indexes for a set with duplicates", () => {
+  it("validateSetNoDoubles - should return array with indexes for a set of duplicates", () => {
     // arrange
     const set = ["1", "2", "3", "4", "5", "6", "7", "8", "8"];
 
@@ -20,28 +20,17 @@ describe("validateSet", () => {
     const result = validateSetNoDoubles(set);
 
     // assert
-    console.log(result);
     expect(result).toStrictEqual(["7", "8"]);
   });
 
-  // it("validateSetNoDoubles - should return true for a set with zeros", () => {
-  //     // arrange
-  //     const set = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+  it("validateSetNoDoubles - should return array with indexes for multiple sets of duplicates", () => {
+    // arrange
+    const set = ["1", "1", "3", "4", "5", "6", "7", "8", "8"];
 
-  //     // act
-  //     const result = validateSetNoDoubles(set);
+    // act
+    const result = validateSetNoDoubles(set);
 
-  //     // assert
-  //     expect(result).toBe(true);
-  // });
-
-  // it("validateSetNoDoubles - should return true for an empty set", () => {
-  //     // arrange
-  //     const set: number[] = [];
-
-  //     // act
-  //     const result = validateSetNoDoubles(set);
-
-  //     // assert
-  //     expect(result).toBe(true);
+    // assert
+    expect(result).toStrictEqual(["0", "1", "7", "8"]);
+  });
 });
