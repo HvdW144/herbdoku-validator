@@ -1,6 +1,6 @@
 export default class Herbdoku {
-  public gridSize: number;
   public sudokuString: string;
+  public gridSize: number;
 
   constructor(sudokuString: string, gridSize: number = 9) {
     this.gridSize = gridSize;
