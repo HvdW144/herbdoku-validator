@@ -1,4 +1,4 @@
-import { validateSetNoDoubles } from "./util/validateSet.util";
+import { validateSetNoDoubles } from "./validator-util/validateSet.util";
 import { Validator } from "./validator.abstract";
 import type { ValidatorResult } from "./validatorResult.interface";
 
