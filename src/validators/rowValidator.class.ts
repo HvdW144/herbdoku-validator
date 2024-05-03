@@ -11,10 +11,14 @@ export class RowValidator extends Validator {
       throw new Error("Invalid grid size for given string[][] size.");
     }
 
-    const duplicates: string[] = [];
+    const duplicates: number[] = [];
     for (let i = 0; i < gridSize; i++) {
       const row = sudokuString2D[i] as string[];
-      duplicates.push(...validateSetNoDoubles(row));
+
+      const rowDuplicates = validateSetNoDoubles(row);
+      rowDuplicates.map((index) => {
+        duplicates.push(i * gridSize + index);
+      });
     }
     const isValid = duplicates.length === 0;
 

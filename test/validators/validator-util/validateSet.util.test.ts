@@ -20,7 +20,7 @@ describe("validateSet", () => {
     const result = validateSetNoDoubles(set);
 
     // assert
-    expect(result).toStrictEqual(["7", "8"]);
+    expect(result).toStrictEqual([7, 8]);
   });
 
   it("validateSetNoDoubles - should return array with indexes for multiple sets of duplicates", () => {
@@ -31,6 +31,6 @@ describe("validateSet", () => {
     const result = validateSetNoDoubles(set);
 
     // assert
-    expect(result).toStrictEqual(["0", "1", "7", "8"]);
+    expect(result).toStrictEqual([0, 1, 7, 8]);
   });
 });

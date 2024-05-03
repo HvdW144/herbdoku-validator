@@ -1,4 +1,4 @@
-export function validateSetNoDoubles(set: string[]): string[] {
+export function validateSetNoDoubles(set: string[]): number[] {
   const charIndices = new Map<string, number[]>();
 
   set.forEach((value, index) => {
@@ -9,12 +9,12 @@ export function validateSetNoDoubles(set: string[]): string[] {
     }
   });
 
-  const duplicates: string[] = [];
+  const duplicates: number[] = [];
 
   charIndices.forEach((indices) => {
     if (indices.length > 1) {
       indices.forEach((index) => {
-        duplicates.push(index.toString());
+        duplicates.push(index);
       });
     }
   });
