@@ -11,7 +11,8 @@
     "build": "tsup",
     "lint": "tsc",
     "test": "jest test/",
-    "test:watch": "jest test/ --watch"
+    "test:watch": "jest test/ --watchAll",
+    "test:coverage": "jest test/ --coverage"
   },
   "directories": {
     "test": "test"
