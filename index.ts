@@ -1,5 +1,7 @@
 export * from "./src/herbdoku";
 
+export * from "./types";
+
 // console.log("Hello, world!");
 
 // var herbdoku = new Herbdoku(
