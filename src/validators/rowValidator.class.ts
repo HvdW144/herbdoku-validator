@@ -11,17 +11,17 @@ export class RowValidator extends Validator {
       throw new Error("Invalid grid size for given string[][] size.");
     }
 
-    const duplicates: number[] = [];
+    const duplicateIndexes: number[] = [];
     for (let i = 0; i < gridSize; i++) {
       const row = sudokuString2D[i] as string[];
 
       const rowDuplicates = validateSetNoDoubles(row);
       rowDuplicates.map((index) => {
-        duplicates.push(i * gridSize + index);
+        duplicateIndexes.push(i * gridSize + index);
       });
     }
-    const isValid = duplicates.length === 0;
+    const isValid = duplicateIndexes.length === 0;
 
-    return { isValid: isValid, duplicates: duplicates };
+    return { isValid: isValid, duplicates: duplicateIndexes };
   }
 }

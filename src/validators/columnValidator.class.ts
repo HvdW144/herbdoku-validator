@@ -7,22 +7,21 @@ export class ColumnValidator extends Validator {
     sudokuString2D: string[][],
     gridSize: number
   ): ValidatorResult {
-    // if (sudokuString2D.length !== gridSize) {
-    //   throw new Error("Invalid grid size for given string[][] size.");
-    // }
+    if (sudokuString2D.length !== gridSize) {
+      throw new Error("Invalid grid size for given string[][] size.");
+    }
 
-    // const duplicates: number[] = [];
-    // for (let i = 0; i < gridSize; i++) {
-    //   const row = sudokuString2D[i] as string[];
+    const duplicateIndexes: number[] = [];
+    for (let i = 0; i < gridSize; i++) {
+      const column = sudokuString2D.map((row) => row[i]) as string[];
 
-    //   const rowDuplicates = validateSetNoDoubles(row);
-    //   rowDuplicates.map((index) => {
-    //     duplicates.push(i * gridSize + index);
-    //   });
-    // }
-    // const isValid = duplicates.length === 0;
+      const columnDuplicates = validateSetNoDoubles(column);
+      columnDuplicates.map((index) => {
+        duplicateIndexes.push(i * gridSize + index);
+      });
+    }
+    const isValid = duplicateIndexes.length === 0;
 
-    // return { isValid: isValid, duplicates: duplicates };
-    return { isValid: false };
+    return { isValid: isValid, duplicates: duplicateIndexes };
   }
 }
