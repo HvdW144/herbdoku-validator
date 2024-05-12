@@ -5,6 +5,9 @@ import { RowValidator } from "./validators/rowValidator.class";
 
 export default class Herbdoku {
   public sudokuString2D: string[][];
+  /**
+   * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
+   */
   public gridSize: number;
 
   constructor(sudokuString2D: string, gridSize: number = 9) {
