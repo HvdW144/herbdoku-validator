@@ -14,14 +14,11 @@ export class ColumnValidator extends Validator {
     const duplicateIndexes: number[] = [];
     for (let i = 0; i < gridSize; i++) {
       const column = sudokuString2D.map((row) => row[i]) as string[];
-      // console.log("column ", i, " ", column);
 
       const columnDuplicates = validateSetNoDoubles(column);
       columnDuplicates.map((index) => {
         duplicateIndexes.push(index * gridSize + i);
       });
-      // console.log("columnDuplicates ", i, " ", columnDuplicates);
-      // console.log("duplicateIndexes ", i, " ", duplicateIndexes);
     }
     const isValid = duplicateIndexes.length === 0;
 

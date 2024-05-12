@@ -1,58 +1,35 @@
+import type { ValidatorResult } from "../types";
+import { sudokuStringToStringArray } from "./util/stringManipulation.util";
+import { ColumnValidator } from "./validators/columnValidator.class";
+import { RowValidator } from "./validators/rowValidator.class";
+
 export default class Herbdoku {
-  public sudokuString: string;
+  public sudokuString2D: string[][];
   public gridSize: number;
 
-  constructor(sudokuString: string, gridSize: number = 9) {
+  constructor(sudokuString2D: string, gridSize: number = 9) {
     this.gridSize = gridSize;
-    this.sudokuString = sudokuString;
+    this.sudokuString2D = sudokuStringToStringArray(sudokuString2D, gridSize);
   }
 
   public validateDefault(): boolean {
-    const sudoku = this.sudokuString.split("").map(Number);
     return (
-      this.validateRows(sudoku) &&
-      this.validateColumns(sudoku) &&
-      this.validateBoxes(sudoku)
+      this.validateRows() && this.validateColumns() && this.validateBoxes()
     );
   }
 
-  private validateRows(sudoku: number[]): boolean {
-    for (let i = 0; i < 9; i++) {
-      const row = sudoku.slice(i * 9, i * 9 + 9);
-      if (!this.validateSet(row)) {
-        return false;
-      }
-    }
-    return true;
+  public validateRows(): ValidatorResult {
+    const rowValidator = new RowValidator();
+    return rowValidator.validate(this.sudokuString2D, this.gridSize);
   }
 
-  private validateColumns(sudoku: number[]): boolean {
-    for (let i = 0; i < 9; i++) {
-      const column = sudoku.filter((_, j) => j % 9 === i);
-      if (!this.validateSet(column)) {
-        return false;
-      }
-    }
-    return true;
+  public validateColumns(): ValidatorResult {
+    const columnValidator = new ColumnValidator();
+    return columnValidator.validate(this.sudokuString2D, this.gridSize);
   }
 
-  private validateBoxes(sudoku: number[]): boolean {
-    for (let i = 0; i < 9; i++) {
-      const box = sudoku.filter((_, j) => {
-        const row = Math.floor(j / 9);
-        const col = j % 9;
-        return Math.floor(row / 3) * 3 + Math.floor(col / 3) === i;
-      });
-      if (!this.validateSet(box)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private validateSet(set: number[]): boolean {
-    const setWithoutZeros = set.filter((n) => n !== 0);
-    return new Set(setWithoutZeros).size === setWithoutZeros.length;
+  public validateBoxes(): boolean {
+    return false;
   }
 
   //----------------------BOILER PLATE CODE----------------------
@@ -60,15 +37,15 @@ export default class Herbdoku {
     return this.gridSize;
   }
 
-  public getSudokuString(): string {
-    return this.sudokuString;
+  public getSudokuString2D(): string[][] {
+    return this.sudokuString2D;
   }
 
   public setGridSize(gridSize: number): void {
     this.gridSize = gridSize;
   }
 
-  public setSudokuString(sudokuString: string): void {
-    this.sudokuString = sudokuString;
+  public setSudokuString(sudokuString2D: string[][]): void {
+    this.sudokuString2D = sudokuString2D;
   }
 }
