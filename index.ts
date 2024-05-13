@@ -14,15 +14,4 @@ export * from "./types";
 
 var boxValidator = new BoxValidator();
 
-console.log(
-  "boxValidator",
-  boxValidator.validate(
-    [
-      ["1", "2", "3", "4"],
-      ["3", "4", "1", "2"],
-      ["2", "3", "4", "1"],
-      ["4", "1", "2", "4"],
-    ],
-    4
-  )
-);
+console.log("boxValidator", boxValidator.validate("1234341223414124", 4));

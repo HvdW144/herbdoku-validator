@@ -4,15 +4,17 @@ import { ColumnValidator } from "./validators/columnValidator.class";
 import { RowValidator } from "./validators/rowValidator.class";
 
 export default class Herbdoku {
-  public sudokuString2D: string[][];
+  private sudokuString: string;
+  private sudokuString2D: string[][];
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
    */
   public gridSize: number;
 
-  constructor(sudokuString2D: string, gridSize: number = 9) {
+  constructor(sudokuString: string, gridSize: number = 9) {
     this.gridSize = gridSize;
-    this.sudokuString2D = sudokuStringToStringArray(sudokuString2D, gridSize);
+    this.sudokuString = sudokuString;
+    this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
   }
 
   public validateDefault(): boolean {
