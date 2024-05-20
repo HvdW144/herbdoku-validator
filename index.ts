@@ -1,5 +1,3 @@
-import { BoxValidator } from "./src/validators/box-validator/boxValidator.class";
-
 export * from "./src/herbdoku";
 
 export * from "./types";
@@ -11,7 +9,3 @@ export * from "./types";
 // );
 
 // herbdoku.validateDefault();
-
-var boxValidator = new BoxValidator();
-
-console.log("boxValidator", boxValidator.validate("1234341223414124", 4));

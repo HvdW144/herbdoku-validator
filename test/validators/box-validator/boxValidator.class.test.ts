@@ -37,8 +37,8 @@ describe("BoxValidator", () => {
     const result = boxValidator.validate(sudokuString, 9);
 
     // assert
-    expect(result.isValid).toBe(true);
     expect(result.duplicates).toStrictEqual([]);
+    expect(result.isValid).toBe(true);
   });
 
   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {

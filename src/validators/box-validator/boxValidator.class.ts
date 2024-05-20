@@ -20,7 +20,8 @@ export class BoxValidator extends Validator {
     boxValues.forEach((box: string[]) => {
       const boxDuplicates = validateSetNoDoubles(box);
       boxDuplicates.map((index) => {
-        duplicateIndexes.push(index);
+        const boxIndex = boxValues.indexOf(box);
+        duplicateIndexes.push(boxIndexes.at(boxIndex)?.at(index) as number);
       });
     });
 
@@ -40,3 +41,34 @@ export class BoxValidator extends Validator {
     }
   }
 }
+
+function getBoxValues(boxIndexes2: number[][], str: string): string[][] {
+  const boxValues: string[][] = [];
+
+  for (const boxIndex of boxIndexes2) {
+    const row: string[] = [];
+    for (const index of boxIndex) {
+      if (index >= 0 && index < str.length) {
+        row.push(str[index] as string);
+      } else {
+        // Handle cases where index is out of bounds (optional)
+        row.push(""); // You can push any default value here
+      }
+    }
+    boxValues.push(row);
+  }
+
+  return boxValues;
+}
+
+const boxIndexes2 = [
+  [0, 1, 4, 5],
+  [2, 3, 6, 7],
+  [8, 9, 12, 13],
+  [10, 11, 14, 15],
+];
+
+const str = "1268341223414124";
+const boxValues = getBoxValues(boxIndexes2, str);
+
+console.log(boxValues);
