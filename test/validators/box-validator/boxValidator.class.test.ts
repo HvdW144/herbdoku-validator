@@ -54,4 +54,16 @@ describe("BoxValidator", () => {
     expect(result.isValid).toBe(false);
     expect(result.duplicates).toStrictEqual([18, 26, 79, 80]);
   });
+
+  it("validate - should throw an error for an invalid grid size", () => {
+    // arrange
+    const boxValidator = new BoxValidator();
+    const sudokuString = "12342341123";
+
+    // act
+    const act = () => boxValidator.validate(sudokuString, 4);
+
+    // assert
+    expect(act).toThrow("Invalid grid size for given string size.");
+  });
 });

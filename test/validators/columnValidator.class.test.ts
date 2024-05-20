@@ -82,4 +82,25 @@ describe("ColumnValidator", () => {
     expect(result.isValid).toBe(false);
     expect(result.duplicates).toStrictEqual([1, 10, 34, 79]);
   });
+
+  it("validate - should throw an error for an invalid grid size", () => {
+    // arrange
+    const columnValidator = new ColumnValidator();
+    const sudokuString2D = [
+      ["1", "3", "3", "4", "5", "6", "7", "8", "9"],
+      ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
+      ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
+      ["4", "5", "6", "7", "8", "9", "1", "7", "3"],
+      ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
+      ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
+      ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
+      ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
+    ];
+
+    // act
+    const act = () => columnValidator.validate(sudokuString2D, 9);
+
+    // assert
+    expect(act).toThrow("Invalid grid size for given string[][] size.");
+  });
 });
