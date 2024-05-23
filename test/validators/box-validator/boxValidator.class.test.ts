@@ -31,7 +31,7 @@ describe("BoxValidator", () => {
     // arrange
     const boxValidator = new BoxValidator();
     const sudokuString =
-      "123456789234567891345678912456789123567891234678912345789123456891234567912345678";
+      "256473891974821536183569427691382754328754169547196283465237918732918645819645372";
 
     // act
     const result = boxValidator.validate(sudokuString, 9);
@@ -45,14 +45,14 @@ describe("BoxValidator", () => {
     // arrange
     const boxValidator = new BoxValidator();
     const sudokuString =
-      "123456789234567891345678913456789123567891234678912345789123456891234567912345677";
+      "256473891974821536183569427691382754328754169547196283465237918732918645819645373";
 
     // act
     const result = boxValidator.validate(sudokuString, 9);
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.duplicates).toStrictEqual([18, 26, 79, 80]);
+    expect(result.duplicates).toStrictEqual([78, 80]);
   });
 
   it("validate - should throw an error for an invalid grid size", () => {
