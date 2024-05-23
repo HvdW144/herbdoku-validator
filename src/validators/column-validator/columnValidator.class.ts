@@ -1,6 +1,6 @@
-import { validateSetNoDoubles } from "./validator-util/validateSet.util";
-import { Validator } from "./validator.abstract";
-import type { ValidatorResult } from "./validatorResult.interface";
+import type { ValidatorResult } from "../../../dist";
+import { validateSetNoDoubles } from "../validator-util/validateSet.util";
+import { Validator } from "../validator.abstract";
 
 export class ColumnValidator extends Validator {
   public validate(

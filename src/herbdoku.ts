@@ -1,7 +1,8 @@
-import type { ValidatorResult } from "../types";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
+import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { ColumnValidator } from "./validators/columnValidator.class";
 import { RowValidator } from "./validators/rowValidator.class";
+import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 
 export default class Herbdoku {
   private sudokuString: string;
@@ -9,32 +10,68 @@ export default class Herbdoku {
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
    */
-  public gridSize: number;
+  private gridSize: number;
+  private validatorResultTotal: ValidatorResultTotal;
 
   constructor(sudokuString: string, gridSize: number = 9) {
     this.gridSize = gridSize;
     this.sudokuString = sudokuString;
     this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
+    this.validatorResultTotal = {
+      isValid: true,
+      messages: [],
+      duplicates: [],
+    };
   }
 
-  public validateDefault(): boolean {
-    return (
-      this.validateRows() && this.validateColumns() && this.validateBoxes()
-    );
+  /**
+   * This method should be called last to get the final result.
+   */
+  public build(): ValidatorResultTotal {
+    return this.validatorResultTotal;
   }
 
-  public validateRows(): ValidatorResult {
+  public validateDefault(): this {
+    return this.validateRows().validateColumns().validateBoxes();
+  }
+
+  public validateRows(): this {
     const rowValidator = new RowValidator();
-    return rowValidator.validate(this.sudokuString2D, this.gridSize);
+    const result = rowValidator.validate(this.sudokuString2D, this.gridSize);
+    if (!result.isValid) {
+      this.validatorResultTotal.isValid = false;
+      this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
+      if (result.message) {
+        this.validatorResultTotal.messages.push(result.message);
+      }
+    }
+    return this;
   }
 
-  public validateColumns(): ValidatorResult {
+  public validateColumns(): this {
     const columnValidator = new ColumnValidator();
-    return columnValidator.validate(this.sudokuString2D, this.gridSize);
+    const result = columnValidator.validate(this.sudokuString2D, this.gridSize);
+    if (!result.isValid) {
+      this.validatorResultTotal.isValid = false;
+      this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
+      if (result.message) {
+        this.validatorResultTotal.messages.push(result.message);
+      }
+    }
+    return this;
   }
 
-  public validateBoxes(): boolean {
-    return false;
+  public validateBoxes(): this {
+    const boxValidator = new BoxValidator();
+    const result = boxValidator.validate(this.sudokuString, this.gridSize);
+    if (!result.isValid) {
+      this.validatorResultTotal.isValid = false;
+      this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
+      if (result.message) {
+        this.validatorResultTotal.messages.push(result.message);
+      }
+    }
+    return this;
   }
 
   //----------------------BOILER PLATE CODE----------------------
