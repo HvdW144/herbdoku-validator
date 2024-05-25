@@ -1,7 +1,7 @@
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
-import { ColumnValidator } from "./validators/columnValidator.class";
-import { RowValidator } from "./validators/rowValidator.class";
+import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
+import { RowValidator } from "./validators/row-validator/rowValidator.class";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 
 export default class Herbdoku {

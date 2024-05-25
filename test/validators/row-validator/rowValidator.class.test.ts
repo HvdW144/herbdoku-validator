@@ -1,4 +1,4 @@
-import { RowValidator } from "../../src/validators/rowValidator.class";
+import { RowValidator } from "../../../src/validators/row-validator/rowValidator.class";
 
 describe("RowValidator", () => {
   it("validate - should return empty array for a valid 4x4 grid", () => {

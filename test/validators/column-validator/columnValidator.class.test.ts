@@ -1,4 +1,4 @@
-import { ColumnValidator } from "../../src/validators/columnValidator.class";
+import { ColumnValidator } from "../../../src/validators/column-validator/columnValidator.class";
 
 describe("ColumnValidator", () => {
   it("validate - should return empty array for a valid 4x4 grid", () => {
