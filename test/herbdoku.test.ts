@@ -1,4 +1,5 @@
 import Herbdoku from "../src/herbdoku";
+import type { ValidatorResultTotal } from "../src/validators/validatorResultTotal.interface";
 
 describe("Herbdoku", () => {
   let herbdoku: Herbdoku;
@@ -17,5 +18,22 @@ describe("Herbdoku", () => {
     expect(validateRowsMock).toHaveBeenCalled();
     expect(validateColumnsMock).toHaveBeenCalled();
     expect(validateBoxesMock).toHaveBeenCalled();
+  });
+
+  it("build - should return the validatorResultTotal", () => {
+    // arrange
+    herbdoku = new Herbdoku("1234341221434321", 4);
+    const buildMock = jest.spyOn(herbdoku, "build");
+
+    // act
+    herbdoku.build();
+
+    // assert
+    expect(buildMock).toHaveBeenCalled();
+    expect(buildMock).toHaveReturnedWith<ValidatorResultTotal>({
+      isValid: true,
+      messages: [],
+      duplicates: [],
+    });
   });
 });
