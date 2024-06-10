@@ -1,4 +1,4 @@
-import Herbdoku from "../src/herbdoku";
+import { Herbdoku } from "../src/herbdoku";
 import type { ValidatorResultTotal } from "../src/validators/validatorResultTotal.interface";
 
 describe("Herbdoku", () => {

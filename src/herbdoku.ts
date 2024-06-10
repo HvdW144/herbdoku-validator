@@ -1,11 +1,11 @@
-import type { ValidatorResult } from "../types";
+import type { ValidatorResult } from "./validators/validatorResult.interface";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
 import { RowValidator } from "./validators/row-validator/rowValidator.class";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 
-export default class Herbdoku {
+export class Herbdoku {
   private sudokuString2D: string[][];
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).

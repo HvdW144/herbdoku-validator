@@ -1,1 +1,1 @@
-export type { ValidatorResult } from "./src/validators/validatorResult.interface";
+export type { ValidatorResultTotal } from "./src/validators/validatorResultTotal.interface";
