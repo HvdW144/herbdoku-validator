@@ -1,3 +1,4 @@
+import type { ValidatorResult } from "../types";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
@@ -36,40 +37,34 @@ export default class Herbdoku {
   public validateRows(): this {
     const rowValidator = new RowValidator();
     const result = rowValidator.validate(this.sudokuString2D, this.gridSize);
-    if (!result.isValid) {
-      this.validatorResultTotal.isValid = false;
-      this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
-      if (result.message) {
-        this.validatorResultTotal.messages.push(result.message);
-      }
-    }
+    this.appendValidatorResultTotal(result);
     return this;
   }
 
   public validateColumns(): this {
     const columnValidator = new ColumnValidator();
     const result = columnValidator.validate(this.sudokuString2D, this.gridSize);
-    if (!result.isValid) {
-      this.validatorResultTotal.isValid = false;
-      this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
-      if (result.message) {
-        this.validatorResultTotal.messages.push(result.message);
-      }
-    }
+    this.appendValidatorResultTotal(result);
     return this;
   }
 
   public validateBoxes(): this {
     const boxValidator = new BoxValidator();
     const result = boxValidator.validate(this.getSudokuString(), this.gridSize);
-    if (!result.isValid) {
+    this.appendValidatorResultTotal(result);
+    return this;
+  }
+
+  private appendValidatorResultTotal(validatorResult: ValidatorResult) {
+    if (!validatorResult.isValid) {
       this.validatorResultTotal.isValid = false;
-      this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
-      if (result.message) {
-        this.validatorResultTotal.messages.push(result.message);
+      this.validatorResultTotal.duplicates.push(
+        ...(validatorResult.duplicates ?? [])
+      );
+      if (validatorResult.message) {
+        this.validatorResultTotal.messages.push(validatorResult.message);
       }
     }
-    return this;
   }
 
   //----------------------BOILER PLATE CODE----------------------

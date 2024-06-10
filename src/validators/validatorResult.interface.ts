@@ -1,6 +1,6 @@
 export interface ValidatorResult {
   isValid: boolean;
-  message?: string;
+  message?: string; //TODO: Change to string[] for multiple messages
   /**
    * Indices of the duplicates in the input array.
    */
