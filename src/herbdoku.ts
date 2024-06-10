@@ -5,7 +5,6 @@ import { RowValidator } from "./validators/row-validator/rowValidator.class";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 
 export default class Herbdoku {
-  private sudokuString: string;
   private sudokuString2D: string[][];
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
@@ -15,7 +14,6 @@ export default class Herbdoku {
 
   constructor(sudokuString: string, gridSize: number = 9) {
     this.gridSize = gridSize;
-    this.sudokuString = sudokuString;
     this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
     this.validatorResultTotal = {
       isValid: true,
@@ -63,7 +61,7 @@ export default class Herbdoku {
 
   public validateBoxes(): this {
     const boxValidator = new BoxValidator();
-    const result = boxValidator.validate(this.sudokuString, this.gridSize);
+    const result = boxValidator.validate(this.getSudokuString(), this.gridSize);
     if (!result.isValid) {
       this.validatorResultTotal.isValid = false;
       this.validatorResultTotal.duplicates.push(...(result.duplicates ?? []));
@@ -79,15 +77,28 @@ export default class Herbdoku {
     return this.gridSize;
   }
 
-  public getSudokuString2D(): string[][] {
-    return this.sudokuString2D;
-  }
-
   public setGridSize(gridSize: number): void {
     this.gridSize = gridSize;
   }
 
-  public setSudokuString(sudokuString2D: string[][]): void {
-    this.sudokuString2D = sudokuString2D;
+  public getSudokuString2D(): string[][] {
+    return this.sudokuString2D;
+  }
+
+  public getSudokuString(): string {
+    return this.sudokuString2D.map((row) => row.join("")).join("");
+  }
+
+  public setSudokuString(sudokuString: string | string[][]): void {
+    if (typeof sudokuString === "string") {
+      this.sudokuString2D = sudokuStringToStringArray(
+        sudokuString,
+        this.gridSize
+      );
+    } else if (Array.isArray(sudokuString)) {
+      this.sudokuString2D = sudokuString;
+    } else {
+      throw new Error("Invalid input type for setSudokuString");
+    }
   }
 }
