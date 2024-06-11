@@ -3,7 +3,7 @@
   "author": "The Herbdoku Authors (https://github.com/HvdW144/herbdoku-validator/graphs/contributors)",
   "description": "A sudoku validator for advanced sudoku puzzles, inspired by crackingthecryptic",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
