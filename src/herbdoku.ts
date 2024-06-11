@@ -58,12 +58,16 @@ export class Herbdoku {
   private appendValidatorResultTotal(validatorResult: ValidatorResult) {
     if (!validatorResult.isValid) {
       this.validatorResultTotal.isValid = false;
-      this.validatorResultTotal.duplicates.push(
-        ...(validatorResult.duplicates ?? [])
+
+      const existingDuplicates = new Set(this.validatorResultTotal.duplicates);
+      const newDuplicates = (validatorResult.duplicates ?? []).filter(
+        (dup) => !existingDuplicates.has(dup)
       );
-      if (validatorResult.message) {
-        this.validatorResultTotal.messages.push(validatorResult.message);
-      }
+      this.validatorResultTotal.duplicates.push(...newDuplicates);
+    }
+
+    if (validatorResult.message) {
+      this.validatorResultTotal.messages.push(validatorResult.message);
     }
   }
 
