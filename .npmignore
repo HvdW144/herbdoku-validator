@@ -2,12 +2,19 @@
 /test
 /node_modules
 
+index.ts
+types.ts
+
 .env
 .DS_Store
 
 tsconfig.json
 tsup.config.ts
+jest.config.mjs
 
 /.changeset
 /.github
 /.vscode
+/.idea
+/coverage
+*.tgz
