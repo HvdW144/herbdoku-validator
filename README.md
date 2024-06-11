@@ -8,11 +8,37 @@ This is a open-source validator for advanced sudoku's, it is based on the sudoku
 
 ### Setup Herbdoku
 
--
+1. Install the package:
+
+```bash
+$ npm install herbdoku-validator
+```
+
+2. When installed, you can import the library using `import` or `require`:
+
+```js
+import { Herbdoku } from "herbdoku-validator";
+```
 
 ### How to use
 
--
+1. Create a new instance of Herbdoku:
+
+```js
+const herbdoku = new Herbdoku("1234341223414123", 4);
+```
+
+2. Validate de sudoku by concatenating methods. Add build to get the final result:
+
+```js
+herbdoku.validateRows().validateColumns().validateBoxes().build();
+```
+
+3. Or use the `validateDefault()`-method to get the basic sudoku validation at once:
+
+```js
+herbdoku.validateDefault().build();
+```
 
 ## Vision of the project
 
@@ -26,7 +52,7 @@ This is an open-source project and such everyone is free to contribute (NOTE: No
 
 ## Features
 
--
+- Normal sudoku validation including the validation of rows, columns and boxes.
 
 ## License
 
