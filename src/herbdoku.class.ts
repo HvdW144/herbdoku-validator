@@ -4,8 +4,9 @@ import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
 import { RowValidator } from "./validators/row-validator/rowValidator.class";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
+import type { IHerbdoku } from "./herbdoku.interface";
 
-export class Herbdoku {
+export class ConcreteHerbdoku implements IHerbdoku {
   private sudokuString2D: string[][];
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
