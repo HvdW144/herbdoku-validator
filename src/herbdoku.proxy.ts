@@ -1,4 +1,3 @@
-// src/herbdokuProxy.ts
 import { ConcreteHerbdoku } from "./herbdoku.class";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
