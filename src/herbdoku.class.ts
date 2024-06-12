@@ -31,6 +31,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this.validatorResultTotal;
   }
 
+  //default validation
   public validateDefault(): this {
     return this.validateRows().validateColumns().validateBoxes();
   }
@@ -56,6 +57,12 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this;
   }
 
+  //kropki validation
+  public validateWhiteKropki(whiteKropki: string[]): this {
+    return this;
+  }
+
+  //helper methods
   private appendValidatorResultTotal(validatorResult: ValidatorResult) {
     if (!validatorResult.isValid) {
       this.validatorResultTotal.isValid = false;
