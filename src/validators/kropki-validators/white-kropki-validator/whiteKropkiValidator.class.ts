@@ -15,11 +15,27 @@ export class WhiteKropkiValidator extends Validator {
     }
 
     this.whiteKropkiArray.forEach((KropkiDot) => {
-      this.validateKropkiDot(KropkiDot);
+      this.validateKropkiDot(KropkiDot, gridSize);
     });
 
-    return { isValid: false, duplicates: [] };
+    return { isValid: false, invalidIndexes: [] };
   }
 
-  private validateKropkiDot(): ValidatorResult {}
+  //TODO: make public maybe
+  private validateKropkiDot(
+    kropkiDotArray: number[],
+    gridSize: number
+  ): ValidatorResult {
+    if (kropkiDotArray.length !== 3 || 4) {
+      throw new Error("Kropki dot array length should be 3 or 4.");
+    }
+
+    const [x1 = -1, x2 = -1, value = 1] = kropkiDotArray;
+
+    if (x1 === -1 || x2 === -1) {
+      throw new Error("Kropki dot array length should be 2 or 3.");
+    }
+
+    return { isValid: false, invalidIndexes: [] };
+  }
 }
