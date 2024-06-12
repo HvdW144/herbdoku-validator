@@ -22,6 +22,6 @@ export class RowValidator extends Validator {
     }
     const isValid = duplicateIndexes.length === 0;
 
-    return { isValid: isValid, duplicates: duplicateIndexes };
+    return { isValid: isValid, invalidIndexes: duplicateIndexes };
   }
 }

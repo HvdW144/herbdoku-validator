@@ -20,7 +20,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
     this.validatorResultTotal = {
       isValid: true,
       messages: [],
-      duplicates: [],
+      invalidIndexes: [],
     };
   }
 
@@ -67,11 +67,13 @@ export class ConcreteHerbdoku implements IHerbdoku {
     if (!validatorResult.isValid) {
       this.validatorResultTotal.isValid = false;
 
-      const existingDuplicates = new Set(this.validatorResultTotal.duplicates);
-      const newDuplicates = (validatorResult.duplicates ?? []).filter(
-        (dup) => !existingDuplicates.has(dup)
+      const existingInvalidIndexes = new Set(
+        this.validatorResultTotal.invalidIndexes
       );
-      this.validatorResultTotal.duplicates.push(...newDuplicates);
+      const newInvalidIndexes = (validatorResult.invalidIndexes ?? []).filter(
+        (invalidIndex) => !existingInvalidIndexes.has(invalidIndex)
+      );
+      this.validatorResultTotal.invalidIndexes.push(...newInvalidIndexes);
     }
 
     if (validatorResult.message) {

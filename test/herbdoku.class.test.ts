@@ -33,7 +33,7 @@ describe("Herbdoku", () => {
     expect(buildMock).toHaveReturnedWith<ValidatorResultTotal>({
       isValid: true,
       messages: [],
-      duplicates: [],
+      invalidIndexes: [],
     });
   });
 });
