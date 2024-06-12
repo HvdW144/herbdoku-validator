@@ -4,5 +4,5 @@ export interface ValidatorResultTotal {
   /**
    * Indices of the duplicates in the input array.
    */
-  duplicates: number[];
+  invalidIndexes: number[];
 }
