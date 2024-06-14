@@ -31,21 +31,20 @@ export class WhiteKropkiValidator extends Validator {
       throw new Error("Kropki dot array length should be 3 or 4.");
     }
 
-    const [x1 = -1, x2 = -1, value = 1] = kropkiDotArray;
-
-    const value1 = sudokuString.charAt(x1); //it's a string..
-    const value2 = sudokuString.charAt(x2);
+    const [x1 = -1, x2 = -1, difference = 1] = kropkiDotArray;
 
     if (x1 < 0 || x1 >= gridSize ** 2 || x2 < 0 || x2 >= gridSize ** 2) {
       throw new Error("The indexes of the kropki dot are out of bounds.");
     }
 
-    if (x1 - value == x2 || x2 - value == x1) {
+    //TODO: not possible for partially filled sudoku
+    const value1 = Number(sudokuString.charAt(x1));
+    const value2 = Number(sudokuString.charAt(x2));
+
+    if (value1 - difference == value2 || value2 - difference == value1) {
       return { isValid: true, invalidIndexes: [] };
-    } else {
-      return { isValid: false, invalidIndexes: [] };
     }
 
-    return { isValid: false, invalidIndexes: [] }; //TODO: implement
+    return { isValid: false, invalidIndexes: [x1, x2] };
   }
 }
