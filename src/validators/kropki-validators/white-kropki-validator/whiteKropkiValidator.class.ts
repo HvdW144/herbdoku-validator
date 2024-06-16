@@ -14,8 +14,15 @@ export class WhiteKropkiValidator extends Validator {
       throw new Error("Invalid grid size for given string size.");
     }
 
+    let finalResult: ValidatorResult;
+
     this.whiteKropkiArray.forEach((KropkiDot) => {
-      this.validateKropkiDot(sudokuString, gridSize, KropkiDot);
+      const result = this.validateKropkiDot(sudokuString, gridSize, KropkiDot);
+
+      if (!result.isValid) {
+        finalResult.isValid = false;
+        finalResult.invalidIndexes.push(...result.invalidIndexes); //TODO: fix (fix validator interface first)
+      }
     });
 
     return { isValid: false, invalidIndexes: [] };
