@@ -10,6 +10,7 @@ export class WhiteKropkiValidator extends Validator {
   }
 
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
+    //TODO: remove all these checks from validators (handled by Herbdoku class)
     if (sudokuString.length !== gridSize ** 2) {
       throw new Error("Invalid grid size for given string size.");
     }
