@@ -2,7 +2,7 @@ export interface ValidatorResultTotal {
   isValid: boolean;
   messages: string[];
   /**
-   * Indices of the duplicates in the input array.
+   * Indices of the invalid indexes in the input array.
    */
   invalidIndexes: number[];
 }
