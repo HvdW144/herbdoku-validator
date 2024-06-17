@@ -14,7 +14,7 @@ export interface KropkiDot {
    */
   kropkiValue?: number;
   /**
-   * The type of the kropki dot. Can be either `"white"` or `"black"`.
+   * The type of the kropki dot. Can be either `"white" (0)` or `"black" (1)`.
    */
-  kropkiType: "white" | "black";
+  kropkiType: "white" | "black" | 0 | 1;
 }
