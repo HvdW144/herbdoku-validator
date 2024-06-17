@@ -86,10 +86,6 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this.gridSize;
   }
 
-  public setGridSize(gridSize: number): void {
-    this.gridSize = gridSize;
-  }
-
   public getSudokuString2D(): string[][] {
     return this.sudokuString2D;
   }
@@ -105,6 +101,9 @@ export class ConcreteHerbdoku implements IHerbdoku {
         this.gridSize
       );
     } else if (Array.isArray(sudokuString)) {
+      if (sudokuString.length !== this.gridSize ** 2) {
+        throw new Error("Invalid string length for given grid size.");
+      }
       this.sudokuString2D = sudokuString;
     } else {
       throw new Error("Invalid input type for setSudokuString");
