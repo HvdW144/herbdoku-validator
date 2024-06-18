@@ -8,6 +8,8 @@ export class BlackKropkiValidator extends Validator {
 
     return {
       isValid: false,
+      messages: [],
+      invalidIndexes: [],
     };
   }
 }

@@ -12,7 +12,11 @@ export class WhiteKropkiValidator extends Validator {
   }
 
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
-    let finalResult: ValidatorResult = { isValid: true };
+    let finalResult: ValidatorResult = {
+      isValid: true,
+      messages: [],
+      invalidIndexes: [],
+    };
 
     this.whiteKropkiArray.forEach((KropkiDot) => {
       const result = this.validateKropkiDot(sudokuString, gridSize, KropkiDot);
@@ -50,9 +54,13 @@ export class WhiteKropkiValidator extends Validator {
       value1 - (kropkiDot.kropkiValue || 1) == value2 ||
       value2 - (kropkiDot.kropkiValue || 1) == value1
     ) {
-      return { isValid: true, invalidIndexes: [] };
+      return { isValid: true, messages: [], invalidIndexes: [] };
     }
 
-    return { isValid: false, invalidIndexes: [kropkiDot.x1, kropkiDot.x2] };
+    return {
+      isValid: false,
+      messages: [],
+      invalidIndexes: [kropkiDot.x1, kropkiDot.x2],
+    };
   }
 }

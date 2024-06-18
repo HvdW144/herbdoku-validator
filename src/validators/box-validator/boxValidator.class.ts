@@ -27,7 +27,7 @@ export class BoxValidator extends Validator {
 
     const isValid = duplicateIndexes.length === 0;
 
-    return { isValid: isValid, invalidIndexes: duplicateIndexes };
+    return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
   }
 
   private getBoxIndexesForGivenGridSize(gridSize: number): number[][] {

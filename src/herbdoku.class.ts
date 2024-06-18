@@ -76,8 +76,8 @@ export class ConcreteHerbdoku implements IHerbdoku {
       this.validatorResultTotal.invalidIndexes.push(...newInvalidIndexes);
     }
 
-    if (validatorResult.message) {
-      this.validatorResultTotal.messages.push(validatorResult.message);
+    if (validatorResult.messages) {
+      this.validatorResultTotal.messages.push(...validatorResult.messages);
     }
   }
 
