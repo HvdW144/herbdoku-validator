@@ -1,4 +1,4 @@
-//TODO: refactor using strategy, splitting in multiple interfaces
+//TODO: remove optional indicators (?)
 export interface ValidatorResult {
   isValid: boolean;
   message?: string;
