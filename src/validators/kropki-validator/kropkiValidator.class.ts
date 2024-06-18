@@ -1,12 +1,11 @@
-import { Validator } from "../validator.abstract";
+import type { Validator } from "../validator.interface";
 import type { ValidatorResult } from "../validatorResult.interface";
 import type { KropkiDot } from "./kropkiDot.interface";
 
-export class KropkiValidator extends Validator {
+export class KropkiValidator implements Validator {
   private kropkiArray: KropkiDot[];
 
   constructor(kropkiArray: KropkiDot[]) {
-    super();
     this.kropkiArray = kropkiArray;
   }
 

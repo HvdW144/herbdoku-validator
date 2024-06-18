@@ -1,8 +1,8 @@
 import type { ValidatorResult } from "../validatorResult.interface";
 import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import { Validator } from "../validator.abstract";
+import type { Validator } from "../validator.interface";
 
-export class RowValidator extends Validator {
+export class RowValidator implements Validator {
   public validate(
     sudokuString2D: string[][],
     gridSize: number
