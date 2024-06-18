@@ -20,7 +20,7 @@ export class KropkiValidator extends Validator {
       dot.kropkiType === "black" || dot.kropkiType === 1;
     });
 
-    let finalResult: ValidatorResult = { isValid: true };
+    let finalResult: ValidatorResult = { isValid: true, invalidIndexes: [] };
 
     if (whiteKropkiDots.length !== 0) {
       const whiteKropkiValidator = new WhiteKropkiValidator(whiteKropkiDots);
