@@ -42,13 +42,9 @@ export class KropkiValidator implements Validator {
           finalResult.invalidIndexes.push(...result.invalidIndexes);
         }
       } else {
-        result = {
-          isValid: true,
-          messages: [
-            `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`,
-          ],
-          invalidIndexes: [],
-        };
+        finalResult.messages.push(
+          `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`
+        );
       }
     });
 
