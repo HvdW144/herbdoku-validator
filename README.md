@@ -44,7 +44,7 @@ herbdoku.validateDefault().build();
 
 The vision of this project is to give everyone (the sudoku solvers and the sudoku setters) access to a powerful sudoku validator that doesn't only validate ordinary sudoku, but also more advanced sudoku rules.
 
-Especially front-end developers of sudokupads might be happy with something like this.
+Especially front-end developers of sudokupads might like something like this.
 
 ## Contributing
 
@@ -53,6 +53,7 @@ This is an open-source project and such everyone is free to contribute (NOTE: No
 ## Features
 
 - Normal sudoku validation including the validation of rows, columns and boxes.
+- Validation of kropki dots, both white and black, with a possibility to a different value to the kropki dot.
 
 ## License
 
