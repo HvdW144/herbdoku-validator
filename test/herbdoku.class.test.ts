@@ -42,8 +42,9 @@ describe("Herbdoku", () => {
     // arrange
     herbdoku = new Herbdoku("1234341221434321", 4);
     const kropkiDotsArray: KropkiDot[] = [
-      { x1: 10, x2: 9, kropkiValue: 3, kropkiType: "white" },
-      { x1: 0, x2: 1, kropkiType: 1 },
+      { x1: 10, x2: 9, kropkiValue: 3, kropkiType: "white" }, // valid
+      { x1: 0, x2: 1, kropkiType: 1 }, // valid
+      { x1: 16, x2: 10, kropkiValue: 3, kropkiType: 0 }, // out-of-bounds
     ];
 
     // act
@@ -52,7 +53,9 @@ describe("Herbdoku", () => {
 
     // assert
     expect(validatorResultTotal.isValid).toBe(true);
-    expect(validatorResultTotal.messages).toStrictEqual([]);
+    expect(validatorResultTotal.messages).toStrictEqual([
+      "One or more indexes of the kropki dot with indexes 16 and 10 are out of bounds. Result is ignored",
+    ]);
     expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
   });
 });
