@@ -1,8 +1,8 @@
 import type { ValidatorResult } from "../validatorResult.interface";
 import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import { Validator } from "../validator.abstract";
+import type { Validator } from "../validator.interface";
 
-export class ColumnValidator extends Validator {
+export class ColumnValidator implements Validator {
   public validate(
     sudokuString2D: string[][],
     gridSize: number
@@ -22,6 +22,6 @@ export class ColumnValidator extends Validator {
     }
     const isValid = duplicateIndexes.length === 0;
 
-    return { isValid: isValid, invalidIndexes: duplicateIndexes };
+    return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
   }
 }

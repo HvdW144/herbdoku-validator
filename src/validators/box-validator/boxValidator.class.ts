@@ -1,9 +1,9 @@
 import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import { Validator } from "../validator.abstract";
+import type { Validator } from "../validator.interface";
 import type { ValidatorResult } from "../validatorResult.interface";
 import boxIndexes from "./boxIndexes.json";
 
-export class BoxValidator extends Validator {
+export class BoxValidator implements Validator {
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
     if (sudokuString.length !== gridSize ** 2) {
       throw new Error("Invalid grid size for given string size.");
@@ -27,7 +27,7 @@ export class BoxValidator extends Validator {
 
     const isValid = duplicateIndexes.length === 0;
 
-    return { isValid: isValid, invalidIndexes: duplicateIndexes };
+    return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
   }
 
   private getBoxIndexesForGivenGridSize(gridSize: number): number[][] {

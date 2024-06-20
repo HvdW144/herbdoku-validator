@@ -62,7 +62,7 @@ describe("ColumnValidator", () => {
 
   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
     // arrange
-    const rowValidator = new ColumnValidator();
+    const columnValidator = new ColumnValidator();
     const sudokuString2D = [
       ["1", "3", "3", "4", "5", "6", "7", "8", "9"],
       ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
@@ -76,7 +76,7 @@ describe("ColumnValidator", () => {
     ];
 
     // act
-    const result = rowValidator.validate(sudokuString2D, 9);
+    const result = columnValidator.validate(sudokuString2D, 9);
 
     // assert
     expect(result.isValid).toBe(false);
