@@ -17,6 +17,14 @@ export class ThermoValidator implements Validator {
       invalidIndexes: [],
     };
 
+    this.thermoArray.forEach((thermo) => {
+      const thermoValues = thermo.indexes.map((cell) =>
+        Number(sudokuString.charAt(cell))
+      );
+
+      //TODO: foreach thermocell here
+    });
+
     return finalResult;
   }
 }
