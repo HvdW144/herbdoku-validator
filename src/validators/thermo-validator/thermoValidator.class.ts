@@ -1,5 +1,4 @@
 import type { ValidatorResult } from "../validatorResult.interface";
-import { validateSetNoDoubles } from "../validator-util/validateSet.util";
 import type { Validator } from "../validator.interface";
 import type { Thermometer } from "./thermometer.interface";
 
@@ -10,7 +9,7 @@ export class ThermoValidator implements Validator {
     this.thermoArray = thermoArray;
   }
 
-  public validate(sudokuString: string, gridSize: number): ValidatorResult {
+  public validate(sudokuString: string): ValidatorResult {
     let finalResult: ValidatorResult = {
       isValid: true,
       messages: [],
@@ -21,8 +20,19 @@ export class ThermoValidator implements Validator {
       const thermoValues = thermo.indexes.map((cell) =>
         Number(sudokuString.charAt(cell))
       );
+      const thermoDifference = thermo.thermoDifference || 1;
 
-      //TODO: foreach thermocell here
+      const invalidIndexes = thermoValues.filter((value, index) => {
+        if (index === 0) {
+          return;
+        }
+        return value - (thermoValues[index - 1] || 0) < thermoDifference;
+      });
+
+      if (invalidIndexes.length > 0) {
+        finalResult.isValid = false;
+        finalResult.invalidIndexes.push(...invalidIndexes);
+      }
     });
 
     return finalResult;
