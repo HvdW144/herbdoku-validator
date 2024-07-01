@@ -2,6 +2,7 @@ import { ConcreteHerbdoku } from "./herbdoku.class";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
+import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
 
 export class HerbdokuProxy implements IHerbdoku {
   private herbdoku: ConcreteHerbdoku;
@@ -40,6 +41,11 @@ export class HerbdokuProxy implements IHerbdoku {
 
   public validateKropki(kropkiArray: KropkiDot[]): this {
     this.herbdoku.validateKropki(kropkiArray);
+    return this;
+  }
+
+  public validateThermos(thermoArray: Thermometer[]): this {
+    this.herbdoku.validateThermos(thermoArray);
     return this;
   }
 }

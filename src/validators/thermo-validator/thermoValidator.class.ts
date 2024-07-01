@@ -17,8 +17,8 @@ export class ThermoValidator implements Validator {
     };
 
     this.thermoArray.forEach((thermo) => {
-      const thermoValues = thermo.indexes.map((cell) =>
-        Number(sudokuString.charAt(cell))
+      const thermoValues = thermo.indexes.map((index) =>
+        Number(sudokuString.charAt(index))
       );
       const thermoDifference = thermo.thermoDifference || 1;
 
