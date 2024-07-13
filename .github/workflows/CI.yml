@@ -23,11 +23,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build app
-        run: npm run build
-
       - name: Lint app
         run: npm run lint
+
+      - name: Build app
+        run: npm run build
 
       - name: Test app
         run: npm run test

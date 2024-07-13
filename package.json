@@ -5,10 +5,10 @@
   "license": "MIT",
   "version": "0.1.0",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup index.ts --format cjs,esm --dts --out-dir dist",
     "lint": "tsc",
     "test": "jest test/",
     "test:watch": "jest test/ --watchAll",
