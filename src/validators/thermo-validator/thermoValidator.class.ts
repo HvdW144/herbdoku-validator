@@ -22,11 +22,15 @@ export class ThermoValidator implements Validator {
       );
       const thermoDifference = thermo.thermoDifference || 1;
 
-      const invalidIndexes = thermoValues.filter((value, index) => {
+      const invalidIndexes: number[] = [];
+      thermoValues.filter((value, index) => {
         if (index === 0) {
           return;
         }
-        return value - (thermoValues[index - 1] || 0) < thermoDifference;
+        console.log(value, index);
+        if (value - (thermoValues[index - 1] || 0) < thermoDifference) {
+          invalidIndexes.push(index);
+        }
       });
 
       if (invalidIndexes.length > 0) {
