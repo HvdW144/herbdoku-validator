@@ -1,5 +1,8 @@
 # Herbdoku - sudoku validator
 
+<img src="https://drive.google.com/uc?export=download&id=1w1gIxrp9GFi84BslM7Aqzn2yNZURG0ff" alt="Herbdoku Logo" style="width:250px; height:250px;"/>
+
+
 This is a open-source validator for advanced sudoku's, it is based on the sudoku community from [crackingthecryptic.com](https://app.crackingthecryptic.com/) ([Discord link](https://discord.com/invite/BbN89j5)).
 
 ## Contents
