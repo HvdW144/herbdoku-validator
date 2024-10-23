@@ -17,19 +17,22 @@ export class ThermoValidator implements Validator {
     };
 
     this.thermoArray.forEach((thermo) => {
-      const thermoValues = thermo.indexes.map((index) =>
-        Number(sudokuString.charAt(index))
-      );
-      const thermoDifference = thermo.thermoDifference || 1;
+      const thermoValues = thermo.indexes.map((index) => ({
+        value: Number(sudokuString.charAt(index)),
+        index: index,
+      }));
+      const thermoDifference = thermo.thermoDifference ?? 1;
 
       const invalidIndexes: number[] = [];
-      thermoValues.filter((value, index) => {
+      thermoValues.filter((thermoValue, index) => {
         if (index === 0) {
           return;
         }
-        console.log(value, index);
-        if (value - (thermoValues[index - 1] || 0) < thermoDifference) {
-          invalidIndexes.push(index);
+        if (
+          thermoValue.value - (thermoValues[index - 1]?.value || 0) <
+          thermoDifference
+        ) {
+          invalidIndexes.push(thermoValue.index);
         }
       });
 

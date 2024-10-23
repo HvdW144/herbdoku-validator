@@ -46,7 +46,7 @@ describe("ThermoValidator", () => {
         thermoDifference: 2,
       },
       {
-        indexes: [6, 12, 7],
+        indexes: [6, 19, 12],
         thermoDifference: 0,
       },
     ];
@@ -58,51 +58,31 @@ describe("ThermoValidator", () => {
     const result = rowValidator.validate(sudokuString);
 
     // assert
-    // expect(result.isValid).toBe(true);
+    expect(result.isValid).toBe(true);
     expect(result.invalidIndexes).toStrictEqual([]);
   });
 
-  //   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
-  //     // arrange
-  //     const rowValidator = new ThermoValidator();
-  //     const sudokuString2D = [
-  //       ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
-  //       ["3", "4", "1", "2", "5", "6", "7", "8", "9"],
-  //       ["2", "3", "4", "1", "5", "6", "7", "8", "9"],
-  //       ["4", "1", "2", "3", "5", "6", "7", "8", "9"],
-  //       ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
-  //       ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
-  //       ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
-  //       ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
-  //       ["9", "1", "2", "3", "4", "5", "6", "7", "9"],
-  //     ];
+  it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
+    // arrange
+    const thermoArray: Thermometer[] = [
+      {
+        indexes: [70, 69, 66],
+        thermoDifference: 3,
+      },
+      {
+        indexes: [6, 19, 11],
+        thermoDifference: 0,
+      },
+    ];
+    const thermoValidator = new ThermoValidator(thermoArray);
+    const sudokuString =
+      "256473891974821536183569427691382754328754169547196283465237918732918645819645372";
 
-  //     // act
-  //     const result = rowValidator.validate(sudokuString2D, 9);
+    // act
+    const result = thermoValidator.validate(sudokuString);
 
-  //     // assert
-  //     expect(result.isValid).toBe(false);
-  //     expect(result.invalidIndexes).toStrictEqual([72, 80]);
-  //   });
-
-  //   it("validate - should throw an error for an invalid grid size", () => {
-  //     // arrange
-  //     const rowValidator = new ThermoValidator();
-  //     const sudokuString2D = [
-  //       ["1", "3", "3", "4", "5", "6", "7", "8", "9"],
-  //       ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
-  //       ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
-  //       ["4", "5", "6", "7", "8", "9", "1", "7", "3"],
-  //       ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
-  //       ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
-  //       ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
-  //       ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
-  //     ];
-
-  //     // act
-  //     const act = () => rowValidator.validate(sudokuString2D, 9);
-
-  //     // assert
-  //     expect(act).toThrow("Invalid grid size for given string[][] size.");
-  //   });
+    // assert
+    expect(result.isValid).toBe(false);
+    expect(result.invalidIndexes).toStrictEqual([69, 11]);
+  });
 });
