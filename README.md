@@ -50,6 +50,7 @@ herbdoku.validateDefault().build();
 
 - Normal sudoku validation including the validation of rows, columns and boxes.
 - Validation of kropki dots, both white and black, with a possibility to a different value to the kropki dot.
+- Validation of thermometers, with the option to set the speed of the thermometer yourself.
 
 ## Vision of the project
 
@@ -59,7 +60,7 @@ Especially front-end developers of sudokupads might like something like this.
 
 ## Contributing
 
-This is an open-source project and such everyone is free to contribute (NOTE: Not every contributor will necessarily be explicitly mentioned. This might change in the future.
+This is an open-source project and such everyone is free to contribute (NOTE: Not every contributor will necessarily be explicitly mentioned. This might change in the future.)
 
 ## License
 
