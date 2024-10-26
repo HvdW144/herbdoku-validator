@@ -7,6 +7,8 @@ import type { ValidatorResultTotal } from "./validators/validatorResultTotal.int
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
 import { KropkiValidator } from "./validators/kropki-validator/kropkiValidator.class";
+import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
+import { ThermoValidator } from "./validators/thermo-validator/thermoValidator.class";
 
 export class ConcreteHerbdoku implements IHerbdoku {
   private sudokuString2D: string[][];
@@ -70,6 +72,15 @@ export class ConcreteHerbdoku implements IHerbdoku {
     const result = new KropkiValidator(kropkiDots).validate(
       this.getSudokuString(),
       this.gridSize
+    );
+    this.appendValidatorResultTotal(result);
+    return this;
+  }
+
+  //thermo validation
+  public validateThermos(thermoArray: Thermometer[]): this {
+    const result = new ThermoValidator(thermoArray).validate(
+      this.getSudokuString()
     );
     this.appendValidatorResultTotal(result);
     return this;
