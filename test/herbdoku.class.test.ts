@@ -1,6 +1,7 @@
 import { ConcreteHerbdoku as Herbdoku } from "../src/herbdoku.class";
 import type { ValidatorResultTotal } from "../src/validators/validatorResultTotal.interface";
 import type { KropkiDot } from "../src/validators/kropki-validator/kropkiDot.interface";
+import type { Thermometer } from "../src/validators/thermo-validator/thermometer.interface";
 
 describe("Herbdoku", () => {
   let herbdoku: Herbdoku;
@@ -56,6 +57,24 @@ describe("Herbdoku", () => {
     expect(validatorResultTotal.messages).toStrictEqual([
       "One or more indexes of the kropki dot with indexes 16 and 10 are out of bounds. Result is ignored",
     ]);
+    expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
+  });
+
+  it("validateThermos - should call validateThermos and return empty array for valid sudokuString", () => {
+    // arrange
+    herbdoku = new Herbdoku("1234341221434321", 4);
+    const thermoArray: Thermometer[] = [
+      { indexes: [15, 14, 13] },
+      { indexes: [14, 12], thermoDifference: 2 },
+      { indexes: [9, 7, 2, 12] },
+    ];
+    // act
+    herbdoku.validateThermos(thermoArray);
+    const validatorResultTotal = herbdoku.build();
+
+    // assert
+    // expect(validatorResultTotal.isValid).toBe(true);
+    expect(validatorResultTotal.messages).toStrictEqual([]);
     expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
   });
 });
