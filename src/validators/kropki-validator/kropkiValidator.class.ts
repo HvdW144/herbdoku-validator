@@ -10,7 +10,7 @@ export class KropkiValidator implements Validator {
   }
 
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
-    let finalResult: ValidatorResult = {
+    const finalResult: ValidatorResult = {
       isValid: true,
       messages: [],
       invalidIndexes: [],

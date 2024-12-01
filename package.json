@@ -9,7 +9,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "lint": "tsc",
+    "lint": "eslint \"{src,test}/**/*\" --fix",
+    "lint:nofix": "eslint",
     "test": "jest test/",
     "test:watch": "jest test/ --watchAll",
     "test:coverage": "jest test/ --coverage"

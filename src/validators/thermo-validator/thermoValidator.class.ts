@@ -10,7 +10,7 @@ export class ThermoValidator implements Validator {
   }
 
   public validate(sudokuString: string): ValidatorResult {
-    let finalResult: ValidatorResult = {
+    const finalResult: ValidatorResult = {
       isValid: true,
       messages: [],
       invalidIndexes: [],
