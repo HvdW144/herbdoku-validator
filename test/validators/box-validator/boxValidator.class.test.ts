@@ -11,7 +11,7 @@ describe("BoxValidator", () => {
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.duplicates).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual([]);
   });
 
   it("validate - should return array with duplicates for an invalid 4x4 grid", () => {
@@ -24,7 +24,7 @@ describe("BoxValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.duplicates).toStrictEqual([10, 15]);
+    expect(result.invalidIndexes).toStrictEqual([10, 15]);
   });
 
   it("validate - should return empty array for a valid 9x9 grid", () => {
@@ -37,7 +37,7 @@ describe("BoxValidator", () => {
     const result = boxValidator.validate(sudokuString, 9);
 
     // assert
-    expect(result.duplicates).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual([]);
     expect(result.isValid).toBe(true);
   });
 
@@ -52,7 +52,7 @@ describe("BoxValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.duplicates).toStrictEqual([78, 80]);
+    expect(result.invalidIndexes).toStrictEqual([78, 80]);
   });
 
   it("validate - should throw an error for an invalid grid size", () => {

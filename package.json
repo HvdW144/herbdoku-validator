@@ -3,13 +3,14 @@
   "author": "The Herbdoku Authors (https://github.com/HvdW144/herbdoku-validator/graphs/contributors)",
   "description": "A sudoku validator for advanced sudoku puzzles, inspired by crackingthecryptic",
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "lint": "tsc",
+    "lint": "eslint \"{src,test}/**/*\" --fix",
+    "lint:nofix": "eslint",
     "test": "jest test/",
     "test:watch": "jest test/ --watchAll",
     "test:coverage": "jest test/ --coverage"
@@ -20,7 +21,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HvdW144/herbdoku-validator.git"
+    "url": "git+https://github.com/HvdW144/herbdoku-validator.git"
   },
   "keywords": [
     "sudoku",
@@ -29,11 +30,14 @@
   ],
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "@eslint/js": "^9.16.0",
     "@types/jest": "^29.5.12",
+    "eslint": "^9.16.0",
+    "globals": "^15.12.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.5"
-  },
-  "dependencies": {}
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.16.0"
+  }
 }

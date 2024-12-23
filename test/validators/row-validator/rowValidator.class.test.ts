@@ -16,7 +16,7 @@ describe("RowValidator", () => {
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.duplicates).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual([]);
   });
 
   it("validate - should return array with duplicates for an invalid 4x4 grid", () => {
@@ -34,7 +34,7 @@ describe("RowValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.duplicates).toStrictEqual([12, 15]);
+    expect(result.invalidIndexes).toStrictEqual([12, 15]);
   });
 
   it("validate - should return empty array for a valid 9x9 grid", () => {
@@ -57,7 +57,7 @@ describe("RowValidator", () => {
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.duplicates).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual([]);
   });
 
   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
@@ -80,7 +80,7 @@ describe("RowValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.duplicates).toStrictEqual([72, 80]);
+    expect(result.invalidIndexes).toStrictEqual([72, 80]);
   });
 
   it("validate - should throw an error for an invalid grid size", () => {

@@ -5,6 +5,10 @@ import { ColumnValidator } from "./validators/column-validator/columnValidator.c
 import { RowValidator } from "./validators/row-validator/rowValidator.class";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 import type { IHerbdoku } from "./herbdoku.interface";
+import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
+import { KropkiValidator } from "./validators/kropki-validator/kropkiValidator.class";
+import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
+import { ThermoValidator } from "./validators/thermo-validator/thermoValidator.class";
 
 export class ConcreteHerbdoku implements IHerbdoku {
   private sudokuString2D: string[][];
@@ -20,7 +24,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
     this.validatorResultTotal = {
       isValid: true,
       messages: [],
-      duplicates: [],
+      invalidIndexes: [],
     };
   }
 
@@ -31,54 +35,79 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this.validatorResultTotal;
   }
 
+  //default validation
   public validateDefault(): this {
     return this.validateRows().validateColumns().validateBoxes();
   }
 
   public validateRows(): this {
-    const rowValidator = new RowValidator();
-    const result = rowValidator.validate(this.sudokuString2D, this.gridSize);
+    const result = new RowValidator().validate(
+      this.sudokuString2D,
+      this.gridSize
+    );
     this.appendValidatorResultTotal(result);
     return this;
   }
 
   public validateColumns(): this {
-    const columnValidator = new ColumnValidator();
-    const result = columnValidator.validate(this.sudokuString2D, this.gridSize);
+    const result = new ColumnValidator().validate(
+      this.sudokuString2D,
+      this.gridSize
+    );
     this.appendValidatorResultTotal(result);
     return this;
   }
 
   public validateBoxes(): this {
-    const boxValidator = new BoxValidator();
-    const result = boxValidator.validate(this.getSudokuString(), this.gridSize);
+    const result = new BoxValidator().validate(
+      this.getSudokuString(),
+      this.gridSize
+    );
     this.appendValidatorResultTotal(result);
     return this;
   }
 
+  //kropki validation
+  public validateKropki(kropkiDots: KropkiDot[]): this {
+    const result = new KropkiValidator(kropkiDots).validate(
+      this.getSudokuString(),
+      this.gridSize
+    );
+    this.appendValidatorResultTotal(result);
+    return this;
+  }
+
+  //thermo validation
+  public validateThermos(thermoArray: Thermometer[]): this {
+    const result = new ThermoValidator(thermoArray).validate(
+      this.getSudokuString()
+    );
+    this.appendValidatorResultTotal(result);
+    return this;
+  }
+
+  //helper methods
   private appendValidatorResultTotal(validatorResult: ValidatorResult) {
     if (!validatorResult.isValid) {
       this.validatorResultTotal.isValid = false;
 
-      const existingDuplicates = new Set(this.validatorResultTotal.duplicates);
-      const newDuplicates = (validatorResult.duplicates ?? []).filter(
-        (dup) => !existingDuplicates.has(dup)
+      const existingInvalidIndexes = new Set(
+        this.validatorResultTotal.invalidIndexes
       );
-      this.validatorResultTotal.duplicates.push(...newDuplicates);
+      const newInvalidIndexes = (validatorResult.invalidIndexes ?? []).filter(
+        (invalidIndex) => !existingInvalidIndexes.has(invalidIndex)
+      );
+      this.validatorResultTotal.invalidIndexes.push(...newInvalidIndexes);
     }
 
-    if (validatorResult.message) {
-      this.validatorResultTotal.messages.push(validatorResult.message);
+    if (validatorResult.messages) {
+      this.validatorResultTotal.messages.push(...validatorResult.messages);
     }
   }
 
-  //----------------------BOILER PLATE CODE----------------------
+  //getters and setters
   public getGridSize(): number {
     return this.gridSize;
-  }
-
-  public setGridSize(gridSize: number): void {
-    this.gridSize = gridSize;
   }
 
   public getSudokuString2D(): string[][] {
@@ -96,6 +125,9 @@ export class ConcreteHerbdoku implements IHerbdoku {
         this.gridSize
       );
     } else if (Array.isArray(sudokuString)) {
+      if (sudokuString.length !== this.gridSize ** 2) {
+        throw new Error("Invalid string length for given grid size.");
+      }
       this.sudokuString2D = sudokuString;
     } else {
       throw new Error("Invalid input type for setSudokuString");
