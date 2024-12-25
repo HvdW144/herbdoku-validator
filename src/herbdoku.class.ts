@@ -28,9 +28,6 @@ export class ConcreteHerbdoku implements IHerbdoku {
     };
   }
 
-  /**
-   * This method should be called last to get the final result.
-   */
   public build(): ValidatorResultTotal {
     return this.validatorResultTotal;
   }
@@ -84,6 +81,10 @@ export class ConcreteHerbdoku implements IHerbdoku {
     );
     this.appendValidatorResultTotal(result);
     return this;
+  }
+
+  public validateDiagonals(main: boolean, anti: boolean): this {
+    throw new Error("Method not implemented.");
   }
 
   //helper methods
