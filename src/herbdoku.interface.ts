@@ -24,5 +24,5 @@ export interface IHerbdoku {
    * @param main - main diagonal, from top left to bottom right
    * @param anti - anti diagonal, from top right to bottom left
    */
-  validateDiagonals(main: boolean, anti: boolean): this;
+  validateDiagonals(main?: boolean, anti?: boolean): this;
 }

@@ -49,7 +49,7 @@ export class HerbdokuProxy implements IHerbdoku {
     return this;
   }
 
-  public validateDiagonals(main: boolean, anti: boolean): this {
+  public validateDiagonals(main?: boolean, anti?: boolean): this {
     this.herbdoku.validateDiagonals(main, anti);
     return this;
   }
