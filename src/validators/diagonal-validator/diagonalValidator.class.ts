@@ -27,13 +27,19 @@ export class DiagonalValidator implements Validator {
     const duplicateIndexes: number[] = [];
     if (this.main) {
       const mainDiagonalValues = sudokuString2D.map((row, index) => row[index]);
-      console.log("mainDiagonalValues", mainDiagonalValues);
-      // TODO: make mainDiagonalValues not return undefined
-      // if (!validateSetNoDoubles(mainDiagonalValues)) {
-      //   duplicateIndexes.push(
-      //     ...mainDiagonalValues.map((_, index) => index + index * gridSize)
-      //   );
-      // }
+      // this probably can be done better
+      if (mainDiagonalValues.includes(undefined)) {
+        throw new Error("Main diagonal contains undefined values.");
+      }
+      const duplicates = validateSetNoDoubles(
+        mainDiagonalValues.filter(
+          (value): value is string => value !== undefined
+        )
+      );
+      //TODO: I don't think it works
+      duplicates.map((index) => {
+        duplicateIndexes.push(index * gridSize + index);
+      });
     }
 
     const isValid = duplicateIndexes.length === 0;
