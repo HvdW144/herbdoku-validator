@@ -11,9 +11,9 @@
     "build": "tsup",
     "lint": "eslint \"{src,test}/**/*\" --fix",
     "lint:nofix": "eslint",
-    "test": "jest test/",
-    "test:watch": "jest test/ --watchAll",
-    "test:coverage": "jest test/ --coverage"
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:cov": "jest --coverage"
   },
   "directories": {
     "test": "test"
