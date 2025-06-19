@@ -27,23 +27,40 @@ export class DiagonalValidator implements Validator {
     const duplicateIndexes: number[] = [];
     if (this.main) {
       const mainDiagonalValues = sudokuString2D.map((row, index) => row[index]);
-      // this probably can be done better
-      if (mainDiagonalValues.includes(undefined)) {
-        throw new Error("Main diagonal contains undefined values.");
-      }
-      const duplicates = validateSetNoDoubles(
-        mainDiagonalValues.filter(
-          (value): value is string => value !== undefined
-        )
+
+      duplicateIndexes.push(
+        ...this.checkDiagonal(mainDiagonalValues, gridSize)
       );
-      //TODO: I don't think it works
-      duplicates.map((index) => {
-        duplicateIndexes.push(index * gridSize + index);
-      });
+    }
+
+    if (this.anti) {
+      const antiDiagonalValues = sudokuString2D.map(
+        (row, index) => row[gridSize - 1 - index]
+      );
+
+      duplicateIndexes.push(
+        ...this.checkDiagonal(antiDiagonalValues, gridSize)
+      );
     }
 
     const isValid = duplicateIndexes.length === 0;
 
-    return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
+    return { isValid, messages: [], invalidIndexes: duplicateIndexes };
+  }
+
+  public checkDiagonal(
+    diagonalStringArray: (string | undefined)[],
+    gridSize: number
+  ) {
+    if (diagonalStringArray.includes(undefined)) {
+      throw new Error("Main diagonal contains undefined values.");
+    }
+
+    const duplicates = validateSetNoDoubles(diagonalStringArray as string[]);
+    const duplicateIndexes: number[] = [];
+    duplicates.map((index) => {
+      duplicateIndexes.push(index * gridSize + index);
+    });
+    return duplicateIndexes;
   }
 }
