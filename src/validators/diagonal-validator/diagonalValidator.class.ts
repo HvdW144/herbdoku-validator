@@ -44,6 +44,7 @@ export class DiagonalValidator implements Validator {
     }
 
     const isValid = duplicateIndexes.length === 0;
+    console.log(duplicateIndexes);
 
     return { isValid, messages: [], invalidIndexes: duplicateIndexes };
   }
