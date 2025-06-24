@@ -39,19 +39,24 @@ export class DiagonalValidator implements Validator {
       );
 
       duplicateIndexes.push(
-        ...this.checkDiagonal(antiDiagonalValues, gridSize)
+        ...this.checkDiagonal(antiDiagonalValues, gridSize, true)
       );
     }
 
     const isValid = duplicateIndexes.length === 0;
-    console.log(duplicateIndexes);
 
-    return { isValid, messages: [], invalidIndexes: duplicateIndexes };
+    return {
+      isValid,
+      messages: [],
+      invalidIndexes: duplicateIndexes.sort((a, b) => a - b),
+    };
   }
 
+  //refactor this shit
   public checkDiagonal(
     diagonalStringArray: (string | undefined)[],
-    gridSize: number
+    gridSize: number,
+    isAntiDiagonal: boolean = false
   ) {
     if (diagonalStringArray.includes(undefined)) {
       throw new Error("Main diagonal contains undefined values.");
@@ -60,7 +65,9 @@ export class DiagonalValidator implements Validator {
     const duplicates = validateSetNoDoubles(diagonalStringArray as string[]);
     const duplicateIndexes: number[] = [];
     duplicates.map((index) => {
-      duplicateIndexes.push(index * gridSize + index);
+      const row = index;
+      const col = isAntiDiagonal ? gridSize - 1 - index : index;
+      duplicateIndexes.push(row * gridSize + col);
     });
     return duplicateIndexes;
   }
