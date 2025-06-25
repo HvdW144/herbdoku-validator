@@ -77,4 +77,20 @@ describe("Herbdoku", () => {
     expect(validatorResultTotal.messages).toStrictEqual([]);
     expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
   });
+
+  it("validateDiagonals - should call validateDiagonals and return empty array for valid sudokuString", () => {
+    // arrange
+    herbdoku = new Herbdoku("1234341243212143", 4);
+    const diagonalValidator = jest.spyOn(herbdoku, "validateDiagonals");
+
+    // act
+    herbdoku.validateDiagonals();
+
+    // assert
+    expect(diagonalValidator).toHaveBeenCalled();
+    const validatorResultTotal = herbdoku.build();
+    expect(validatorResultTotal.isValid).toBe(true);
+    expect(validatorResultTotal.messages).toStrictEqual([]);
+    expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
+  });
 });

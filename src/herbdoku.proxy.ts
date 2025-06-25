@@ -48,4 +48,9 @@ export class HerbdokuProxy implements IHerbdoku {
     this.herbdoku.validateThermos(thermoArray);
     return this;
   }
+
+  public validateDiagonals(main?: boolean, anti?: boolean): this {
+    this.herbdoku.validateDiagonals(main, anti);
+    return this;
+  }
 }
