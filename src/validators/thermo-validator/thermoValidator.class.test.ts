@@ -1,5 +1,9 @@
 import { ThermoValidator } from "../../../src/validators/thermo-validator/thermoValidator.class";
 import type { Thermometer } from "../../../src/validators/thermo-validator/thermometer.interface";
+import {
+  VALID_DEFAULT_SUDOKU_STRING_4X4,
+  VALID_DEFAULT_SUDOKU_STRING_9X9,
+} from "../../util/test-util/sudokuStrings";
 
 describe("ThermoValidator", () => {
   it("validate - should return empty array for a valid normal thermo", () => {
@@ -10,10 +14,9 @@ describe("ThermoValidator", () => {
       },
     ];
     const thermoValidator = new ThermoValidator(thermoArray);
-    const sudokuString = "1234341223414123";
 
     // act
-    const result = thermoValidator.validate(sudokuString);
+    const result = thermoValidator.validate(VALID_DEFAULT_SUDOKU_STRING_4X4);
 
     // assert
     expect(result.isValid).toBe(true);
@@ -51,11 +54,9 @@ describe("ThermoValidator", () => {
       },
     ];
     const rowValidator = new ThermoValidator(thermoArray);
-    const sudokuString =
-      "256473891974821536183569427691382754328754169547196283465237918732918645819645372";
 
     // act
-    const result = rowValidator.validate(sudokuString);
+    const result = rowValidator.validate(VALID_DEFAULT_SUDOKU_STRING_9X9);
 
     // assert
     expect(result.isValid).toBe(true);
