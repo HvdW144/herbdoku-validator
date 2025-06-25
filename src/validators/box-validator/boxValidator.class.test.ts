@@ -1,13 +1,16 @@
 import { BoxValidator } from "../../../src/validators/box-validator/boxValidator.class";
+import {
+  VALID_DEFAULT_SUDOKU_STRING_4X4,
+  VALID_DEFAULT_SUDOKU_STRING_9X9,
+} from "../../util/test-util/sudokuStrings";
 
 describe("BoxValidator", () => {
   it("validate - should return empty array for a valid 4x4 grid", () => {
     // arrange
     const boxValidator = new BoxValidator();
-    const sudokuString = "1234341223414123";
 
     // act
-    const result = boxValidator.validate(sudokuString, 4);
+    const result = boxValidator.validate(VALID_DEFAULT_SUDOKU_STRING_4X4, 4);
 
     // assert
     expect(result.isValid).toBe(true);
@@ -30,11 +33,9 @@ describe("BoxValidator", () => {
   it("validate - should return empty array for a valid 9x9 grid", () => {
     // arrange
     const boxValidator = new BoxValidator();
-    const sudokuString =
-      "256473891974821536183569427691382754328754169547196283465237918732918645819645372";
 
     // act
-    const result = boxValidator.validate(sudokuString, 9);
+    const result = boxValidator.validate(VALID_DEFAULT_SUDOKU_STRING_9X9, 9);
 
     // assert
     expect(result.invalidIndexes).toStrictEqual([]);
