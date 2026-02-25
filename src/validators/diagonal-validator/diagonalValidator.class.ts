@@ -18,28 +18,24 @@ export class DiagonalValidator implements Validator {
 
   public validate(
     sudokuString2D: string[][],
-    gridSize: number
+    gridSize: number,
   ): ValidatorResult {
-    if (sudokuString2D.length !== gridSize) {
-      throw new Error("Invalid grid size for given string[][] size.");
-    }
-
     const duplicateIndexes: number[] = [];
     if (this.main) {
       const mainDiagonalValues = sudokuString2D.map((row, index) => row[index]);
 
       duplicateIndexes.push(
-        ...this.checkDiagonal(mainDiagonalValues, gridSize)
+        ...this.checkDiagonal(mainDiagonalValues, gridSize),
       );
     }
 
     if (this.anti) {
       const antiDiagonalValues = sudokuString2D.map(
-        (row, index) => row[gridSize - 1 - index]
+        (row, index) => row[gridSize - 1 - index],
       );
 
       duplicateIndexes.push(
-        ...this.checkDiagonal(antiDiagonalValues, gridSize, true)
+        ...this.checkDiagonal(antiDiagonalValues, gridSize, true),
       );
     }
 
@@ -53,13 +49,15 @@ export class DiagonalValidator implements Validator {
   }
 
   //refactor this shit
-  public checkDiagonal(
+  private checkDiagonal(
     diagonalStringArray: (string | undefined)[],
     gridSize: number,
-    isAntiDiagonal: boolean = false
+    isAntiDiagonal: boolean = false,
   ) {
     if (diagonalStringArray.includes(undefined)) {
-      throw new Error("Main diagonal contains undefined values.");
+      throw new Error(
+        `${isAntiDiagonal ? "Anti" : "Main"} diagonal contains undefined values.`,
+      );
     }
 
     const duplicates = validateSetNoDoubles(diagonalStringArray as string[]);

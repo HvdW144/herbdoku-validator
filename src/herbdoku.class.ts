@@ -20,6 +20,10 @@ export class ConcreteHerbdoku implements IHerbdoku {
   private validatorResultTotal: ValidatorResultTotal;
 
   constructor(sudokuString: string, gridSize: number = 9) {
+    if (sudokuString.length !== gridSize * gridSize) {
+      throw new Error("Invalid grid size for given sudokuString length.");
+    }
+
     this.gridSize = gridSize;
     this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
     this.validatorResultTotal = {
@@ -41,7 +45,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   public validateRows(): this {
     const result = new RowValidator().validate(
       this.sudokuString2D,
-      this.gridSize
+      this.gridSize,
     );
     this.appendValidatorResultTotal(result);
     return this;
@@ -50,7 +54,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   public validateColumns(): this {
     const result = new ColumnValidator().validate(
       this.sudokuString2D,
-      this.gridSize
+      this.gridSize,
     );
     this.appendValidatorResultTotal(result);
     return this;
@@ -59,7 +63,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   public validateBoxes(): this {
     const result = new BoxValidator().validate(
       this.getSudokuString(),
-      this.gridSize
+      this.gridSize,
     );
     this.appendValidatorResultTotal(result);
     return this;
@@ -69,7 +73,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   public validateKropki(kropkiDots: KropkiDot[]): this {
     const result = new KropkiValidator(kropkiDots).validate(
       this.getSudokuString(),
-      this.gridSize
+      this.gridSize,
     );
     this.appendValidatorResultTotal(result);
     return this;
@@ -78,7 +82,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   //thermo validation
   public validateThermos(thermoArray: Thermometer[]): this {
     const result = new ThermoValidator(thermoArray).validate(
-      this.getSudokuString()
+      this.getSudokuString(),
     );
     this.appendValidatorResultTotal(result);
     return this;
@@ -87,7 +91,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   public validateDiagonals(main?: boolean, anti?: boolean): this {
     const result = new DiagonalValidator(main, anti).validate(
       this.getSudokuString2D(),
-      this.gridSize
+      this.gridSize,
     );
     this.appendValidatorResultTotal(result);
     return this;
@@ -99,10 +103,10 @@ export class ConcreteHerbdoku implements IHerbdoku {
       this.validatorResultTotal.isValid = false;
 
       const existingInvalidIndexes = new Set(
-        this.validatorResultTotal.invalidIndexes
+        this.validatorResultTotal.invalidIndexes,
       );
       const newInvalidIndexes = (validatorResult.invalidIndexes ?? []).filter(
-        (invalidIndex) => !existingInvalidIndexes.has(invalidIndex)
+        (invalidIndex) => !existingInvalidIndexes.has(invalidIndex),
       );
       this.validatorResultTotal.invalidIndexes.push(...newInvalidIndexes);
     }
@@ -125,11 +129,12 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this.sudokuString2D.map((row) => row.join("")).join("");
   }
 
+  //refactor this
   public setSudokuString(sudokuString: string | string[][]): void {
     if (typeof sudokuString === "string") {
       this.sudokuString2D = sudokuStringToStringArray(
         sudokuString,
-        this.gridSize
+        this.gridSize,
       );
     } else if (Array.isArray(sudokuString)) {
       if (sudokuString.length !== this.gridSize ** 2) {
