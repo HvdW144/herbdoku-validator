@@ -5,10 +5,6 @@ import boxIndexes from "./boxIndexes.json";
 
 export class BoxValidator implements Validator {
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
-    if (sudokuString.length !== gridSize ** 2) {
-      throw new Error("Invalid grid size for given string size.");
-    }
-
     const duplicateIndexes: number[] = [];
     const boxIndexes = this.getBoxIndexesForGivenGridSize(gridSize);
     const boxValues = boxIndexes.map((box) => {

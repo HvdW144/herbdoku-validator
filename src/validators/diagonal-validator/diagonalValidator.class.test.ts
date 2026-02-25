@@ -12,7 +12,7 @@ describe("DiagonalValidator", () => {
     //act
     const result = diagonalValidator.validate(
       VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
-      4
+      4,
     );
 
     //assert
@@ -45,7 +45,7 @@ describe("DiagonalValidator", () => {
     // act
     const result = diagonalValidator.validate(
       VALID_DEFAULT_SUDOKU_STRING_2D_9x9,
-      9
+      9,
     );
 
     // assert
@@ -74,26 +74,5 @@ describe("DiagonalValidator", () => {
     // assert
     expect(result.isValid).toBe(false);
     expect(result.invalidIndexes).toStrictEqual([16, 32, 48, 56, 64, 72]);
-  });
-
-  it("validate - should throw an error for an invalid grid size", () => {
-    // arrange
-    const diagonalValidator = new DiagonalValidator();
-    const sudokuString2D = [
-      ["1", "3", "3", "4", "5", "6", "7", "8", "9"],
-      ["2", "3", "4", "5", "6", "7", "8", "9", "1"],
-      ["3", "4", "5", "6", "7", "8", "9", "1", "2"],
-      ["4", "5", "6", "7", "8", "9", "1", "7", "3"],
-      ["5", "6", "7", "8", "9", "1", "2", "3", "4"],
-      ["6", "7", "8", "9", "1", "2", "3", "4", "5"],
-      ["7", "8", "9", "1", "2", "3", "4", "5", "6"],
-      ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
-    ];
-
-    // act
-    const act = () => diagonalValidator.validate(sudokuString2D, 9);
-
-    // assert
-    expect(act).toThrow("Invalid grid size for given string[][] size.");
   });
 });

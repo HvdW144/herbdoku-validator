@@ -93,4 +93,15 @@ describe("Herbdoku", () => {
     expect(validatorResultTotal.messages).toStrictEqual([]);
     expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
   });
+
+  it("constructor - should throw an error for an invalid grid size", () => {
+    // arrange
+    const sudokuString = "12342341123";
+
+    // act
+    const act = () => new Herbdoku(sudokuString, 4);
+
+    // assert
+    expect(act).toThrow("Invalid grid size for given sudokuString length.");
+  });
 });

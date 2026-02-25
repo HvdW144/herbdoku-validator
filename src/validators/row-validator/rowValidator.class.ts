@@ -5,12 +5,8 @@ import type { Validator } from "../validator.interface";
 export class RowValidator implements Validator {
   public validate(
     sudokuString2D: string[][],
-    gridSize: number
+    gridSize: number,
   ): ValidatorResult {
-    if (sudokuString2D.length !== gridSize) {
-      throw new Error("Invalid grid size for given string[][] size.");
-    }
-
     const duplicateIndexes: number[] = [];
     for (let i = 0; i < gridSize; i++) {
       const row = sudokuString2D[i] as string[];
