@@ -1,8 +1,8 @@
-import type { Validator } from "../validator.interface";
+import type { ValidatorClass } from "../validator.interface";
 import type { ValidatorResult } from "../validatorResult.interface";
 import type { KropkiDot } from "./kropkiDot.interface";
 
-export class KropkiValidator implements Validator {
+export class KropkiValidator implements ValidatorClass {
   private kropkiArray: KropkiDot[];
 
   constructor(kropkiArray: KropkiDot[]) {
@@ -43,7 +43,7 @@ export class KropkiValidator implements Validator {
         }
       } else {
         finalResult.messages.push(
-          `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`
+          `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`,
         );
       }
     });
@@ -53,7 +53,7 @@ export class KropkiValidator implements Validator {
 
   private validateWhiteKropkiDot(
     sudokuString: string,
-    whiteKropkiDot: KropkiDot
+    whiteKropkiDot: KropkiDot,
   ): ValidatorResult {
     const value1 = Number(sudokuString.charAt(whiteKropkiDot.x1));
     const value2 = Number(sudokuString.charAt(whiteKropkiDot.x2));
@@ -74,7 +74,7 @@ export class KropkiValidator implements Validator {
 
   private validateBlackKropkiDot(
     sudokuString: string,
-    blackKropkiDot: KropkiDot
+    blackKropkiDot: KropkiDot,
   ): ValidatorResult {
     const value1 = Number(sudokuString.charAt(blackKropkiDot.x1));
     const value2 = Number(sudokuString.charAt(blackKropkiDot.x2));

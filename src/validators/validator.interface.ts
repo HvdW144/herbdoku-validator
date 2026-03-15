@@ -1,8 +1,8 @@
 import type { ValidatorResult } from "./validatorResult.interface";
 
-export interface Validator {
+export interface ValidatorClass {
   validate(
     sudokuString2D: string | string[][],
-    gridSize: number
+    gridSize: number,
   ): ValidatorResult;
 }

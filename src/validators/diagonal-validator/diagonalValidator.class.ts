@@ -1,8 +1,8 @@
 import type { ValidatorResult } from "../validatorResult.interface";
+import type { ValidatorClass } from "../validator.interface";
 import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import type { Validator } from "../validator.interface";
 
-export class DiagonalValidator implements Validator {
+export class DiagonalValidator implements ValidatorClass {
   private main: boolean = false;
   private anti: boolean = false;
 

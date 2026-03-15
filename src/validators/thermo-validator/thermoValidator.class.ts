@@ -1,8 +1,8 @@
 import type { ValidatorResult } from "../validatorResult.interface";
-import type { Validator } from "../validator.interface";
+import type { ValidatorClass } from "../validator.interface";
 import type { Thermometer } from "./thermometer.interface";
 
-export class ThermoValidator implements Validator {
+export class ThermoValidator implements ValidatorClass {
   private thermoArray: Thermometer[];
 
   constructor(thermoArray: Thermometer[]) {

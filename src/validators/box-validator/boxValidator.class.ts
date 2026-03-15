@@ -1,9 +1,9 @@
 import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import type { Validator } from "../validator.interface";
+import type { ValidatorClass } from "../validator.interface";
 import type { ValidatorResult } from "../validatorResult.interface";
 import boxIndexes from "./boxIndexes.json";
 
-export class BoxValidator implements Validator {
+export class BoxValidator implements ValidatorClass {
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
     const duplicateIndexes: number[] = [];
     const boxIndexes = this.getBoxIndexesForGivenGridSize(gridSize);
