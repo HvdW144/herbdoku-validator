@@ -2,7 +2,7 @@ import type { ValidatorResult } from "./validators/validatorResult.interface";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
-import { RowValidator } from "./validators/row-validator/rowValidator.class";
+import { validateRows } from "./validators/row-validator/rowValidator";
 import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
@@ -13,6 +13,7 @@ import { DiagonalValidator } from "./validators/diagonal-validator/diagonalValid
 
 export class ConcreteHerbdoku implements IHerbdoku {
   private sudokuString2D: string[][];
+  private sudokuGrid: Uint8Array;
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
    */
@@ -26,6 +27,9 @@ export class ConcreteHerbdoku implements IHerbdoku {
 
     this.gridSize = gridSize;
     this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
+    this.sudokuGrid = new Uint8Array(
+      sudokuString.split("").map((char) => parseInt(char, 10)),
+    );
     this.validatorResultTotal = {
       isValid: true,
       messages: [],
@@ -43,10 +47,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   }
 
   public validateRows(): this {
-    const result = new RowValidator().validate(
-      this.sudokuString2D,
-      this.gridSize,
-    );
+    const result = validateRows(this.sudokuGrid, this.gridSize);
     this.appendValidatorResultTotal(result);
     return this;
   }
@@ -136,11 +137,18 @@ export class ConcreteHerbdoku implements IHerbdoku {
         sudokuString,
         this.gridSize,
       );
+      this.sudokuGrid = new Uint8Array(
+        sudokuString.split("").map((char) => parseInt(char, 10)),
+      );
     } else if (Array.isArray(sudokuString)) {
       if (sudokuString.length !== this.gridSize ** 2) {
         throw new Error("Invalid string length for given grid size.");
       }
       this.sudokuString2D = sudokuString;
+      const flatString = sudokuString.map((row) => row.join("")).join("");
+      this.sudokuGrid = new Uint8Array(
+        flatString.split("").map((char) => parseInt(char, 10)),
+      );
     } else {
       throw new Error("Invalid input type for setSudokuString");
     }
