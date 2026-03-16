@@ -1,12 +1,12 @@
 import type { KropkiDot } from "../src/validators/kropki-validator/kropkiDot.interface";
 import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
-import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
+import type { ValidatorResult } from "./validators/validatorResult.interface";
 
 export interface IHerbdoku {
   /**
    * This method should be called last to get the final result.
    */
-  build(): ValidatorResultTotal;
+  build(): ValidatorResult;
 
   /**
    * Simple sugar method to validate rows, columns and boxes.

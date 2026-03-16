@@ -1,7 +1,7 @@
 import { ConcreteHerbdoku as Herbdoku } from "../src/herbdoku.class";
-import type { ValidatorResultTotal } from "../src/validators/validatorResultTotal.interface";
 import type { KropkiDot } from "../src/validators/kropki-validator/kropkiDot.interface";
 import type { Thermometer } from "../src/validators/thermo-validator/thermometer.interface";
+import type { ValidatorResult } from "./validators/validatorResult.interface";
 
 describe("Herbdoku", () => {
   let herbdoku: Herbdoku;
@@ -32,10 +32,10 @@ describe("Herbdoku", () => {
 
     // assert
     expect(buildMock).toHaveBeenCalled();
-    expect(buildMock).toHaveReturnedWith<ValidatorResultTotal>({
+    expect(buildMock).toHaveReturnedWith<ValidatorResult>({
       isValid: true,
       messages: [],
-      invalidIndexes: [],
+      invalidIndexes: new Set<number>(),
     });
   });
 
@@ -57,7 +57,9 @@ describe("Herbdoku", () => {
     expect(validatorResultTotal.messages).toStrictEqual([
       "One or more indexes of the kropki dot with indexes 16 and 10 are out of bounds. Result is ignored",
     ]);
-    expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
+    expect(validatorResultTotal.invalidIndexes).toStrictEqual(
+      new Set<number>(),
+    );
   });
 
   it("validateThermos - should call validateThermos and return empty array for valid sudokuString", () => {
@@ -75,7 +77,9 @@ describe("Herbdoku", () => {
     // assert
     // expect(validatorResultTotal.isValid).toBe(true);
     expect(validatorResultTotal.messages).toStrictEqual([]);
-    expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
+    expect(validatorResultTotal.invalidIndexes).toStrictEqual(
+      new Set<number>(),
+    );
   });
 
   it("validateDiagonals - should call validateDiagonals and return empty array for valid sudokuString", () => {
@@ -91,7 +95,9 @@ describe("Herbdoku", () => {
     const validatorResultTotal = herbdoku.build();
     expect(validatorResultTotal.isValid).toBe(true);
     expect(validatorResultTotal.messages).toStrictEqual([]);
-    expect(validatorResultTotal.invalidIndexes).toStrictEqual([]);
+    expect(validatorResultTotal.invalidIndexes).toStrictEqual(
+      new Set<number>(),
+    );
   });
 
   it("constructor - should throw an error for an invalid grid size", () => {

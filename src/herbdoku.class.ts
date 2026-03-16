@@ -3,7 +3,6 @@ import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
 import { validateRows } from "./validators/row-validator/rowValidator";
-import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
 import { KropkiValidator } from "./validators/kropki-validator/kropkiValidator.class";
@@ -18,7 +17,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
    */
   private gridSize: number;
-  private validatorResultTotal: ValidatorResultTotal;
+  private validatorResultTotal: ValidatorResult;
 
   constructor(sudokuString: string, gridSize: number = 9) {
     if (sudokuString.length !== gridSize * gridSize) {
@@ -33,11 +32,11 @@ export class ConcreteHerbdoku implements IHerbdoku {
     this.validatorResultTotal = {
       isValid: true,
       messages: [],
-      invalidIndexes: [],
+      invalidIndexes: new Set<number>(),
     };
   }
 
-  public build(): ValidatorResultTotal {
+  public build(): ValidatorResult {
     return this.validatorResultTotal;
   }
 
@@ -98,20 +97,20 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this;
   }
 
-  //helper methods
+  //--------- helper methods ---------
   private appendValidatorResultTotal(validatorResult: ValidatorResult) {
     if (!validatorResult.isValid) {
+      //set false
       this.validatorResultTotal.isValid = false;
 
-      const existingInvalidIndexes = new Set(
-        this.validatorResultTotal.invalidIndexes,
-      );
-      const newInvalidIndexes = (validatorResult.invalidIndexes ?? []).filter(
-        (invalidIndex) => !existingInvalidIndexes.has(invalidIndex),
-      );
-      this.validatorResultTotal.invalidIndexes.push(...newInvalidIndexes);
+      //add invalid indexes
+      this.validatorResultTotal.invalidIndexes =
+        this.validatorResultTotal.invalidIndexes.union(
+          validatorResult.invalidIndexes,
+        );
     }
 
+    //add messages
     if (validatorResult.messages) {
       this.validatorResultTotal.messages.push(...validatorResult.messages);
     }

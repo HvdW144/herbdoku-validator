@@ -6,15 +6,15 @@ export const validateRows: ValidatorFunction = (
   grid: Uint8Array,
   gridSize: number,
 ): ValidatorResult => {
-  const duplicateIndexes: number[] = [];
+  const duplicateIndexes: Set<number> = new Set();
   for (let i = 0; i < gridSize; i++) {
     const rowStart = i * gridSize;
     const rowDuplicates = findDuplicateIndexes(grid, rowStart, gridSize);
     rowDuplicates.map((index) => {
-      duplicateIndexes.push(rowStart + index);
+      duplicateIndexes.add(rowStart + index);
     });
   }
-  const isValid = duplicateIndexes.length === 0;
+  const isValid = duplicateIndexes.size === 0;
 
   return {
     isValid: isValid,
