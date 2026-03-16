@@ -3,7 +3,7 @@ export function findDuplicateIndexes(
   offset: number = 0,
   length: number = set.length,
 ): number[] {
-  const duplicateIndexes: number[] = [];
+  const duplicateIndexes: number[] = []; //Set isn't faster
   const firstIndices = new Uint32Array(10);
   const duplicateFlags = new Uint8Array(10);
   let seenMask = 0;
