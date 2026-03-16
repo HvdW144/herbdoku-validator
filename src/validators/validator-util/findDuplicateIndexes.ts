@@ -1,4 +1,4 @@
-export function findDuplicateIndexes(set: string[]): number[] {
+export function findDuplicateIndexes(set: string[] | number[]): number[] {
   const duplicateIndexes: number[] = [];
   const firstIndices = new Uint32Array(10);
   const duplicateFlags = new Uint8Array(10);
@@ -8,7 +8,7 @@ export function findDuplicateIndexes(set: string[]): number[] {
     const value = set[i];
     if (!value) continue;
 
-    const digit = parseInt(value);
+    const digit = typeof value === "number" ? value : parseInt(value);
     const bit = 1 << digit;
 
     if (seenMask & bit) {
