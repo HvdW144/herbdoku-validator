@@ -1,4 +1,4 @@
-import { validateSetNoDoubles } from "../validator-util/validateSet.util";
+import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 import type { ValidatorClass } from "../validator.interface";
 import type { ValidatorResult } from "../validatorResult.interface";
 import boxIndexes from "./boxIndexes.json";
@@ -14,7 +14,7 @@ export class BoxValidator implements ValidatorClass {
     });
 
     boxValues.forEach((box: string[]) => {
-      const boxDuplicates = validateSetNoDoubles(box);
+      const boxDuplicates = findDuplicateIndexes(box);
       boxDuplicates.map((index) => {
         const boxIndex = boxValues.indexOf(box);
         duplicateIndexes.push(boxIndexes.at(boxIndex)?.at(index) as number);

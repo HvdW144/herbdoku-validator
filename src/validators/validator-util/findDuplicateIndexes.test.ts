@@ -1,4 +1,4 @@
-import { validateSetNoDoubles } from "../../../src/validators/validator-util/validateSet.util";
+import { findDuplicateIndexes } from "./findDuplicateIndexes";
 
 describe("validateSet", () => {
   it("validateSetNoDoubles - should return empty array for a valid set", () => {
@@ -6,7 +6,7 @@ describe("validateSet", () => {
     const set = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
     // act
-    const result = validateSetNoDoubles(set);
+    const result = findDuplicateIndexes(set);
 
     // assert
     expect(result).toStrictEqual([]);
@@ -17,7 +17,7 @@ describe("validateSet", () => {
     const set = ["1", "2", "3", "4", "5", "6", "7", "8", "8"];
 
     // act
-    const result = validateSetNoDoubles(set);
+    const result = findDuplicateIndexes(set);
 
     // assert
     expect(result).toStrictEqual([7, 8]);
@@ -25,12 +25,12 @@ describe("validateSet", () => {
 
   it("validateSetNoDoubles - should return array with indexes for multiple sets of duplicates", () => {
     // arrange
-    const set = ["1", "1", "3", "4", "5", "6", "7", "8", "8"];
+    const set = ["1", "1", "1", "4", "5", "6", "7", "8", "8"];
 
     // act
-    const result = validateSetNoDoubles(set);
+    const result = findDuplicateIndexes(set);
 
     // assert
-    expect(result).toStrictEqual([0, 1, 7, 8]);
+    expect(result).toStrictEqual([0, 1, 2, 7, 8]);
   });
 });

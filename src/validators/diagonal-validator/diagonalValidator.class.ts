@@ -1,6 +1,6 @@
 import type { ValidatorResult } from "../validatorResult.interface";
 import type { ValidatorClass } from "../validator.interface";
-import { validateSetNoDoubles } from "../validator-util/validateSet.util";
+import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 
 export class DiagonalValidator implements ValidatorClass {
   private main: boolean = false;
@@ -60,7 +60,7 @@ export class DiagonalValidator implements ValidatorClass {
       );
     }
 
-    const duplicates = validateSetNoDoubles(diagonalStringArray as string[]);
+    const duplicates = findDuplicateIndexes(diagonalStringArray as string[]);
     const duplicateIndexes: number[] = [];
     duplicates.map((index) => {
       const row = index;

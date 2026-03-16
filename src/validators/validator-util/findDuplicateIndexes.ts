@@ -1,5 +1,5 @@
-export function validateSetNoDoubles(set: string[]): number[] {
-  const duplicates: number[] = [];
+export function findDuplicateIndexes(set: string[]): number[] {
+  const duplicateIndexes: number[] = [];
   const firstIndices = new Uint32Array(10);
   const duplicateFlags = new Uint8Array(10);
   let seenMask = 0;
@@ -13,10 +13,10 @@ export function validateSetNoDoubles(set: string[]): number[] {
 
     if (seenMask & bit) {
       if (!duplicateFlags[digit]) {
-        duplicates.push(firstIndices[digit] || 0);
+        duplicateIndexes.push(firstIndices[digit] || 0);
         duplicateFlags[digit] = 1;
       }
-      duplicates.push(i);
+      duplicateIndexes.push(i);
       continue;
     }
 
@@ -24,5 +24,5 @@ export function validateSetNoDoubles(set: string[]): number[] {
     firstIndices[digit] = i;
   }
 
-  return duplicates;
+  return duplicateIndexes;
 }

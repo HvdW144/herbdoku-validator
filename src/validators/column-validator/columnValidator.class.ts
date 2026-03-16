@@ -1,5 +1,5 @@
 import type { ValidatorResult } from "../validatorResult.interface";
-import { validateSetNoDoubles } from "../validator-util/validateSet.util";
+import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 import type { ValidatorClass } from "../validator.interface";
 
 export class ColumnValidator implements ValidatorClass {
@@ -11,7 +11,7 @@ export class ColumnValidator implements ValidatorClass {
     for (let i = 0; i < gridSize; i++) {
       const column = sudokuString2D.map((row) => row[i]) as string[];
 
-      const columnDuplicates = validateSetNoDoubles(column);
+      const columnDuplicates = findDuplicateIndexes(column);
       columnDuplicates.map((index) => {
         duplicateIndexes.push(index * gridSize + i);
       });
