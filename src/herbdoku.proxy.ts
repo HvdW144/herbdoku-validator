@@ -53,4 +53,61 @@ export class HerbdokuProxy implements IHerbdoku {
     this.herbdoku.diagonals(main, anti);
     return this;
   }
+
+  //deprecated methods
+  /**
+   * @deprecated - use default() instead, will be removed in v1.0.0
+   */
+  public validateDefault(): this {
+    this.herbdoku.default();
+    return this;
+  }
+
+  /**
+   * @deprecated - use rows() instead, will be removed in v1.0.0
+   */
+  public validateRows(): this {
+    this.herbdoku.rows();
+    return this;
+  }
+
+  /**
+   * @deprecated - use columns() instead, will be removed in v1.0.0
+   */
+  public validateColumns(): this {
+    this.herbdoku.columns();
+    return this;
+  }
+
+  /**
+   * @deprecated - use boxes() instead, will be removed in v1.0.0
+   */
+  public validateBoxes(): this {
+    this.herbdoku.boxes();
+    return this;
+  }
+
+  /**
+   * @deprecated - use kropki() instead, will be removed in v1.0.0
+   */
+  public validateKropki(kropkiArray: KropkiDot[]): this {
+    this.herbdoku.kropki(kropkiArray);
+    return this;
+  }
+
+  /**
+   * @deprecated - use thermos() instead, will be removed in v1.0.0
+   */
+  public validateThermos(thermoArray: Thermometer[]): this {
+    this.herbdoku.thermos(thermoArray);
+    return this;
+  }
+
+  /**
+   * @deprecated - use diagonals() instead, will be removed in v1.0.0
+   */
+  public validateDiagonals(main?: boolean, anti?: boolean): this {
+    this.herbdoku.diagonals(main, anti);
+    return this;
+  }
 }
