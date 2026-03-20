@@ -5,7 +5,7 @@ import boxIndexes from "./boxIndexes.json";
 
 export class BoxValidator implements ValidatorClass {
   public validate(sudokuString: string, gridSize: number): ValidatorResult {
-    const duplicateIndexes: number[] = [];
+    const duplicateIndexes = new Set<number>();
     const boxIndexes = this.getBoxIndexesForGivenGridSize(gridSize);
     const boxValues = boxIndexes.map((box) => {
       return box.map((index) => {
@@ -17,11 +17,11 @@ export class BoxValidator implements ValidatorClass {
       const boxDuplicates = findDuplicateIndexes(box);
       boxDuplicates.map((index) => {
         const boxIndex = boxValues.indexOf(box);
-        duplicateIndexes.push(boxIndexes.at(boxIndex)?.at(index) as number);
+        duplicateIndexes.add(boxIndexes.at(boxIndex)?.at(index) as number);
       });
     });
 
-    const isValid = duplicateIndexes.length === 0;
+    const isValid = duplicateIndexes.size === 0;
 
     return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
   }

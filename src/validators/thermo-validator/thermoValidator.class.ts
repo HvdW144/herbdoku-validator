@@ -13,7 +13,7 @@ export class ThermoValidator implements ValidatorClass {
     const finalResult: ValidatorResult = {
       isValid: true,
       messages: [],
-      invalidIndexes: [],
+      invalidIndexes: new Set<number>(),
     };
 
     this.thermoArray.forEach((thermo) => {
@@ -23,7 +23,7 @@ export class ThermoValidator implements ValidatorClass {
       }));
       const thermoDifference = thermo.thermoDifference ?? 1;
 
-      const invalidIndexes: number[] = [];
+      const invalidIndexes = new Set<number>();
       thermoValues.filter((thermoValue, index) => {
         if (index === 0) {
           return;
@@ -32,13 +32,14 @@ export class ThermoValidator implements ValidatorClass {
           thermoValue.value - (thermoValues[index - 1]?.value || 0) <
           thermoDifference
         ) {
-          invalidIndexes.push(thermoValue.index);
+          invalidIndexes.add(thermoValue.index);
         }
       });
 
-      if (invalidIndexes.length > 0) {
+      if (invalidIndexes.size > 0) {
         finalResult.isValid = false;
-        finalResult.invalidIndexes.push(...invalidIndexes);
+        finalResult.invalidIndexes =
+          finalResult.invalidIndexes.union(invalidIndexes);
       }
     });
 

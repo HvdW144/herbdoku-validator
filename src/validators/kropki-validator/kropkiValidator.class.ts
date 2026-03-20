@@ -13,7 +13,7 @@ export class KropkiValidator implements ValidatorClass {
     const finalResult: ValidatorResult = {
       isValid: true,
       messages: [],
-      invalidIndexes: [],
+      invalidIndexes: new Set<number>(),
     };
 
     this.kropkiArray.forEach((kropkiDot) => {
@@ -39,7 +39,9 @@ export class KropkiValidator implements ValidatorClass {
 
         if (!result.isValid) {
           finalResult.isValid = false;
-          finalResult.invalidIndexes.push(...result.invalidIndexes);
+          finalResult.invalidIndexes = finalResult.invalidIndexes.union(
+            result.invalidIndexes,
+          );
         }
       } else {
         finalResult.messages.push(
@@ -62,13 +64,15 @@ export class KropkiValidator implements ValidatorClass {
       value1 - (whiteKropkiDot.kropkiValue || 1) === value2 ||
       value2 - (whiteKropkiDot.kropkiValue || 1) === value1
     ) {
-      return { isValid: true, messages: [], invalidIndexes: [] };
+      return { isValid: true, messages: [], invalidIndexes: new Set<number>() };
     }
 
     return {
       isValid: false,
       messages: [],
-      invalidIndexes: [whiteKropkiDot.x1, whiteKropkiDot.x2],
+      invalidIndexes: new Set<number>()
+        .add(whiteKropkiDot.x1)
+        .add(whiteKropkiDot.x2),
     };
   }
 
@@ -83,13 +87,15 @@ export class KropkiValidator implements ValidatorClass {
       value1 * (blackKropkiDot.kropkiValue || 2) === value2 ||
       value2 * (blackKropkiDot.kropkiValue || 2) === value1
     ) {
-      return { isValid: true, messages: [], invalidIndexes: [] };
+      return { isValid: true, messages: [], invalidIndexes: new Set<number>() };
     }
 
     return {
       isValid: false,
       messages: [],
-      invalidIndexes: [blackKropkiDot.x1, blackKropkiDot.x2],
+      invalidIndexes: new Set<number>()
+        .add(blackKropkiDot.x1)
+        .add(blackKropkiDot.x2),
     };
   }
 }
