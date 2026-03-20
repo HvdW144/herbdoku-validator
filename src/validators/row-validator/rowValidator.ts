@@ -1,6 +1,6 @@
 import type { ValidatorResult } from "../validatorResult.interface";
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
-import type { ValidatorFunction } from "../../types/validator.type";
+import type { ValidatorFunction } from "../../types/validatorFunction.type";
 
 export const validateRows: ValidatorFunction = (
   grid: Uint8Array,
