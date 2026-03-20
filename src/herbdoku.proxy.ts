@@ -19,38 +19,38 @@ export class HerbdokuProxy implements IHerbdoku {
     return this.herbdoku.build();
   }
 
-  public validateDefault(): this {
-    this.herbdoku.validateDefault();
+  public default(): this {
+    this.herbdoku.default();
     return this;
   }
 
-  public validateRows(): this {
-    this.herbdoku.validateRows();
+  public rows(): this {
+    this.herbdoku.rows();
     return this;
   }
 
-  public validateColumns(): this {
-    this.herbdoku.validateColumns();
+  public columns(): this {
+    this.herbdoku.columns();
     return this;
   }
 
-  public validateBoxes(): this {
-    this.herbdoku.validateBoxes();
+  public boxes(): this {
+    this.herbdoku.boxes();
     return this;
   }
 
-  public validateKropki(kropkiArray: KropkiDot[]): this {
-    this.herbdoku.validateKropki(kropkiArray);
+  public kropki(kropkiArray: KropkiDot[]): this {
+    this.herbdoku.kropki(kropkiArray);
     return this;
   }
 
-  public validateThermos(thermoArray: Thermometer[]): this {
-    this.herbdoku.validateThermos(thermoArray);
+  public thermos(thermoArray: Thermometer[]): this {
+    this.herbdoku.thermos(thermoArray);
     return this;
   }
 
-  public validateDiagonals(main?: boolean, anti?: boolean): this {
-    this.herbdoku.validateDiagonals(main, anti);
+  public diagonals(main?: boolean, anti?: boolean): this {
+    this.herbdoku.diagonals(main, anti);
     return this;
   }
 }

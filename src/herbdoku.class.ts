@@ -41,17 +41,17 @@ export class ConcreteHerbdoku implements IHerbdoku {
   }
 
   //default validation
-  public validateDefault(): this {
-    return this.validateRows().validateColumns().validateBoxes();
+  public default(): this {
+    return this.rows().columns().boxes();
   }
 
-  public validateRows(): this {
+  public rows(): this {
     const result = validateRows(this.sudokuGrid, this.gridSize);
     this.appendValidatorResultTotal(result);
     return this;
   }
 
-  public validateColumns(): this {
+  public columns(): this {
     const result = new ColumnValidator().validate(
       this.sudokuString2D,
       this.gridSize,
@@ -60,7 +60,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this;
   }
 
-  public validateBoxes(): this {
+  public boxes(): this {
     const result = new BoxValidator().validate(
       this.getSudokuString(),
       this.gridSize,
@@ -70,7 +70,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   }
 
   //kropki validation
-  public validateKropki(kropkiDots: KropkiDot[]): this {
+  public kropki(kropkiDots: KropkiDot[]): this {
     const result = new KropkiValidator(kropkiDots).validate(
       this.getSudokuString(),
       this.gridSize,
@@ -80,7 +80,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   }
 
   //thermo validation
-  public validateThermos(thermoArray: Thermometer[]): this {
+  public thermos(thermoArray: Thermometer[]): this {
     const result = new ThermoValidator(thermoArray).validate(
       this.getSudokuString(),
     );
@@ -88,7 +88,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this;
   }
 
-  public validateDiagonals(main?: boolean, anti?: boolean): this {
+  public diagonals(main?: boolean, anti?: boolean): this {
     const result = new DiagonalValidator(main, anti).validate(
       this.getSudokuString2D(),
       this.gridSize,
