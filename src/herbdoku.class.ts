@@ -87,7 +87,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
 
   public diagonals(main?: boolean, anti?: boolean): this {
     const result = new DiagonalValidator(main, anti).validate(
-      this.getSudokuString2D(),
+      this.sudokuString2D,
       this.gridSize,
     );
     this.appendValidatorResultTotal(result);
@@ -114,14 +114,6 @@ export class ConcreteHerbdoku implements IHerbdoku {
   }
 
   //getters and setters
-  public getGridSize(): number {
-    return this.gridSize;
-  }
-
-  public getSudokuString2D(): string[][] {
-    return this.sudokuString2D;
-  }
-
   public getSudokuString(): string {
     return this.sudokuString2D.map((row) => row.join("")).join("");
   }
