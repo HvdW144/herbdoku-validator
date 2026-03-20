@@ -17,7 +17,7 @@ describe("KropkiValidator", () => {
     // assert
     expect(result.isValid).toBe(true);
     expect(result.messages).toStrictEqual([]);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return empty array for a valid 4x4 grid with 2 default black kropki dots", () => {
@@ -35,7 +35,7 @@ describe("KropkiValidator", () => {
     // assert
     expect(result.isValid).toBe(true);
     expect(result.messages).toStrictEqual([]);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return array with duplicates for a valid 4x4 grid with 1 white and 2 black kropki dots", () => {
@@ -54,7 +54,9 @@ describe("KropkiValidator", () => {
     // assert
     expect(result.isValid).toBe(false);
     expect(result.messages).toStrictEqual([]);
-    expect(result.invalidIndexes).toStrictEqual([3, 4, 13, 14]);
+    expect(result.invalidIndexes).toStrictEqual(
+      new Set<number>([3, 4, 13, 14]),
+    );
   });
 
   it("validate - should return a warning message for a out-of-bounds index", () => {
@@ -73,6 +75,6 @@ describe("KropkiValidator", () => {
     expect(result.messages).toStrictEqual([
       "One or more indexes of the kropki dot with indexes 13 and 16 are out of bounds. Result is ignored",
     ]);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 });

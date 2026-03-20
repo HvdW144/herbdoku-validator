@@ -20,7 +20,7 @@ describe("ThermoValidator", () => {
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return empty array for an invalid normal thermo", () => {
@@ -38,7 +38,7 @@ describe("ThermoValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([4]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([4]));
   });
 
   it("validate - should return empty array for a valid 9x9 grid", () => {
@@ -60,7 +60,7 @@ describe("ThermoValidator", () => {
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
@@ -84,6 +84,6 @@ describe("ThermoValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([69, 11]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([69, 11]));
   });
 });
