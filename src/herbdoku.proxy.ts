@@ -54,7 +54,7 @@ export class HerbdokuProxy implements IHerbdoku {
     return this;
   }
 
-  //deprecated methods
+  //--------------- deprecated methods ---------------
   /**
    * @deprecated - use default() instead, will be removed in v1.0.0
    */
