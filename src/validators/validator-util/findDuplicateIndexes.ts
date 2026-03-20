@@ -1,3 +1,10 @@
+/**
+ * Finds duplicate indexes in a set of values, ignoring falsy values.
+ * @param set The array of values to check for duplicates.
+ * @param offset The starting index to check from.
+ * @param length The number of elements to check.
+ * @returns An array of duplicate indexes.
+ */
 export function findDuplicateIndexes(
   set: string[] | number[] | Uint8Array,
   offset: number = 0,
