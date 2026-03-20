@@ -11,6 +11,9 @@ import { ThermoValidator } from "./validators/thermo-validator/thermoValidator.c
 import { DiagonalValidator } from "./validators/diagonal-validator/diagonalValidator.class";
 
 export class ConcreteHerbdoku implements IHerbdoku {
+  /**
+   * @deprecated Use sudokuGrid instead. Will be removed in v1.0.0
+   */
   private sudokuString2D: string[][];
   private sudokuGrid: Uint8Array;
   /**
@@ -113,32 +116,10 @@ export class ConcreteHerbdoku implements IHerbdoku {
     }
   }
 
-  //getters and setters
+  /**
+   * @deprecated Use sudokuGrid instead. Will be removed in v1.0.0
+   */
   public getSudokuString(): string {
     return this.sudokuString2D.map((row) => row.join("")).join("");
-  }
-
-  //refactor this
-  public setSudokuString(sudokuString: string | string[][]): void {
-    if (typeof sudokuString === "string") {
-      this.sudokuString2D = sudokuStringToStringArray(
-        sudokuString,
-        this.gridSize,
-      );
-      this.sudokuGrid = new Uint8Array(
-        sudokuString.split("").map((char) => parseInt(char, 10)),
-      );
-    } else if (Array.isArray(sudokuString)) {
-      if (sudokuString.length !== this.gridSize ** 2) {
-        throw new Error("Invalid string length for given grid size.");
-      }
-      this.sudokuString2D = sudokuString;
-      const flatString = sudokuString.map((row) => row.join("")).join("");
-      this.sudokuGrid = new Uint8Array(
-        flatString.split("").map((char) => parseInt(char, 10)),
-      );
-    } else {
-      throw new Error("Invalid input type for setSudokuString");
-    }
   }
 }
