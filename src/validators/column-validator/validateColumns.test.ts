@@ -1,4 +1,4 @@
-import { validateColumns } from "./columnValidator";
+import { validateColumns } from "./validateColumns";
 import {
   VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
   VALID_DEFAULT_SUDOKU_STRING_2D_9x9,

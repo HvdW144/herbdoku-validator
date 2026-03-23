@@ -1,5 +1,5 @@
-import { validateThermos } from "../../../src/validators/thermo-validator/thermoValidator.class";
-import type { Thermometer } from "../../../src/validators/thermo-validator/thermometer.interface";
+import { validateThermos } from "./validateThermos";
+import type { Thermometer } from "./thermometer.interface";
 import {
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,

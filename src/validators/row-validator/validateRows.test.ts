@@ -1,4 +1,4 @@
-import { validateRows } from "./rowValidator";
+import { validateRows } from "./validateRows";
 import {
   VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
   VALID_DEFAULT_SUDOKU_STRING_2D_9x9,

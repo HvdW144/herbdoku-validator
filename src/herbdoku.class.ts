@@ -1,8 +1,8 @@
 import type { ValidatorResult } from "./validators/validatorResult.interface";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
-import { validateColumns } from "./validators/column-validator/columnValidator";
-import { validateRows } from "./validators/row-validator/rowValidator";
+import { validateColumns } from "./validators/column-validator/validateColumns";
+import { validateRows } from "./validators/row-validator/validateRows";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
 import { KropkiValidator } from "./validators/kropki-validator/kropkiValidator.class";
