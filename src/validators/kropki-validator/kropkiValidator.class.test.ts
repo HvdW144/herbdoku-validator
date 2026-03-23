@@ -1,6 +1,6 @@
 import { KropkiValidator } from "../../../src/validators/kropki-validator/kropkiValidator.class";
 import type { KropkiDot } from "../../../src/validators/kropki-validator/kropkiDot.interface";
-import { VALID_DEFAULT_SUDOKU_STRING_4X4 } from "../../util/test-util/sudokuStrings";
+import { VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4 } from "../../util/test-util/sudokuStrings";
 
 describe("KropkiValidator", () => {
   it("validate - should return empty array for a valid 4x4 grid with 2 default white kropki dots", () => {
@@ -12,7 +12,10 @@ describe("KropkiValidator", () => {
     const kropkiValidator = new KropkiValidator(kropkiDotsArray);
 
     // act
-    const result = kropkiValidator.validate(VALID_DEFAULT_SUDOKU_STRING_4X4, 4);
+    const result = kropkiValidator.validate(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4.join(""),
+      4,
+    );
 
     // assert
     expect(result.isValid).toBe(true);

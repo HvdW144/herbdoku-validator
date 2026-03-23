@@ -1,7 +1,7 @@
 import { BoxValidator } from "../../../src/validators/box-validator/boxValidator.class";
 import {
-  VALID_DEFAULT_SUDOKU_STRING_4X4,
-  VALID_DEFAULT_SUDOKU_STRING_9X9,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
 } from "../../util/test-util/sudokuStrings";
 
 describe("BoxValidator", () => {
@@ -10,7 +10,10 @@ describe("BoxValidator", () => {
     const boxValidator = new BoxValidator();
 
     // act
-    const result = boxValidator.validate(VALID_DEFAULT_SUDOKU_STRING_4X4, 4);
+    const result = boxValidator.validate(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4.join(""),
+      4,
+    );
 
     // assert
     expect(result.isValid).toBe(true);
@@ -35,7 +38,10 @@ describe("BoxValidator", () => {
     const boxValidator = new BoxValidator();
 
     // act
-    const result = boxValidator.validate(VALID_DEFAULT_SUDOKU_STRING_9X9, 9);
+    const result = boxValidator.validate(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9.join(""),
+      9,
+    );
 
     // assert
     expect(result.invalidIndexes).toStrictEqual(new Set<number>());
