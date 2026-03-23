@@ -1,48 +1,39 @@
 import type { ValidatorResult } from "../validatorResult.interface";
-import type { ValidatorClass } from "../validator.interface";
 import type { Thermometer } from "./thermometer.interface";
+import type { ValidatorFunction } from "../../types/validatorFunction.type";
 
-export class ThermoValidator implements ValidatorClass {
-  private thermoArray: Thermometer[];
+export const validateThermos: ValidatorFunction<Thermometer[]> = (
+  grid: Uint8Array,
+  _: number,
+  thermoArray: Thermometer[],
+): ValidatorResult => {
+  const finalResult: ValidatorResult = {
+    isValid: true,
+    messages: [],
+    invalidIndexes: new Set<number>(),
+  };
 
-  constructor(thermoArray: Thermometer[]) {
-    this.thermoArray = thermoArray;
-  }
+  thermoArray.forEach((thermo) => {
+    const thermoValues = thermo.indexes.map((gridIndex) => ({
+      value: grid[gridIndex],
+      index: gridIndex,
+    }));
+    const thermoDifference = thermo.thermoDifference ?? 1;
 
-  public validate(sudokuString: string): ValidatorResult {
-    const finalResult: ValidatorResult = {
-      isValid: true,
-      messages: [],
-      invalidIndexes: new Set<number>(),
-    };
-
-    this.thermoArray.forEach((thermo) => {
-      const thermoValues = thermo.indexes.map((index) => ({
-        value: Number(sudokuString.charAt(index)),
-        index: index,
-      }));
-      const thermoDifference = thermo.thermoDifference ?? 1;
-
-      const invalidIndexes = new Set<number>();
-      thermoValues.filter((thermoValue, index) => {
-        if (index === 0) {
-          return;
-        }
-        if (
-          thermoValue.value - (thermoValues[index - 1]?.value || 0) <
-          thermoDifference
-        ) {
-          invalidIndexes.add(thermoValue.index);
-        }
-      });
-
-      if (invalidIndexes.size > 0) {
+    thermoValues.filter((thermoValue, thermoIndex) => {
+      if (thermoIndex === 0) {
+        return;
+      }
+      //TODO: fix || 0
+      if (
+        (thermoValue.value || 0) - (thermoValues[thermoIndex - 1]?.value || 0) <
+        thermoDifference
+      ) {
+        finalResult.invalidIndexes.add(thermoValue.index);
         finalResult.isValid = false;
-        finalResult.invalidIndexes =
-          finalResult.invalidIndexes.union(invalidIndexes);
       }
     });
+  });
 
-    return finalResult;
-  }
-}
+  return finalResult;
+};
