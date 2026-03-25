@@ -5,7 +5,7 @@ import { validateColumns } from "./validators/column-validator/validateColumns";
 import { validateRows } from "./validators/row-validator/validateRows";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
-import { KropkiValidator } from "./validators/kropki-validator/kropkiValidator.class";
+import { validateKropki } from "./validators/kropki-validator/kropkiValidator.class";
 import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
 import { DiagonalValidator } from "./validators/diagonal-validator/diagonalValidator.class";
 import { validateThermos } from "../functions";
@@ -71,10 +71,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
 
   //kropki validation
   public kropki(kropkiDots: KropkiDot[]): this {
-    const result = new KropkiValidator(kropkiDots).validate(
-      this.getSudokuString(),
-      this.gridSize,
-    );
+    const result = validateKropki(this.sudokuGrid, this.gridSize, kropkiDots);
     this.appendValidatorResultTotal(result);
     return this;
   }

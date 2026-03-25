@@ -1,101 +1,97 @@
-import type { ValidatorClass } from "../validator.interface";
+import type { ValidatorFunction } from "../../types/validatorFunction.type";
 import type { ValidatorResult } from "../validatorResult.interface";
 import type { KropkiDot } from "./kropkiDot.interface";
 
-export class KropkiValidator implements ValidatorClass {
-  private kropkiArray: KropkiDot[];
+export const validateKropki: ValidatorFunction<KropkiDot[]> = (
+  grid: Uint8Array,
+  gridSize: number,
+  kropkiArray: KropkiDot[],
+): ValidatorResult => {
+  const finalResult: ValidatorResult = {
+    isValid: true,
+    messages: [],
+    invalidIndexes: new Set<number>(),
+  };
 
-  constructor(kropkiArray: KropkiDot[]) {
-    this.kropkiArray = kropkiArray;
-  }
-
-  public validate(sudokuString: string, gridSize: number): ValidatorResult {
-    const finalResult: ValidatorResult = {
-      isValid: true,
-      messages: [],
-      invalidIndexes: new Set<number>(),
-    };
-
-    this.kropkiArray.forEach((kropkiDot) => {
-      let result: ValidatorResult;
-      if (
-        !(
-          kropkiDot.x1 < 0 ||
-          kropkiDot.x1 >= gridSize ** 2 ||
-          kropkiDot.x2 < 0 ||
-          kropkiDot.x2 >= gridSize ** 2
-        )
+  kropkiArray.forEach((kropkiDot) => {
+    let result: ValidatorResult;
+    if (
+      !(
+        kropkiDot.x1 < 0 ||
+        kropkiDot.x1 >= gridSize ** 2 ||
+        kropkiDot.x2 < 0 ||
+        kropkiDot.x2 >= gridSize ** 2
+      )
+    ) {
+      if (kropkiDot.kropkiType === "white" || kropkiDot.kropkiType === 0) {
+        result = validateWhiteKropkiDot(grid, kropkiDot);
+      } else if (
+        kropkiDot.kropkiType === "black" ||
+        kropkiDot.kropkiType === 1
       ) {
-        if (kropkiDot.kropkiType === "white" || kropkiDot.kropkiType === 0) {
-          result = this.validateWhiteKropkiDot(sudokuString, kropkiDot);
-        } else if (
-          kropkiDot.kropkiType === "black" ||
-          kropkiDot.kropkiType === 1
-        ) {
-          result = this.validateBlackKropkiDot(sudokuString, kropkiDot);
-        } else {
-          throw new Error("Invalid kropki type.");
-        }
-
-        if (!result.isValid) {
-          finalResult.isValid = false;
-          finalResult.invalidIndexes = finalResult.invalidIndexes.union(
-            result.invalidIndexes,
-          );
-        }
+        result = validateBlackKropkiDot(grid, kropkiDot);
       } else {
-        finalResult.messages.push(
-          `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`,
+        throw new Error("Invalid kropki type.");
+      }
+
+      if (!result.isValid) {
+        finalResult.isValid = false;
+        finalResult.invalidIndexes = finalResult.invalidIndexes.union(
+          result.invalidIndexes,
         );
       }
-    });
-
-    return finalResult;
-  }
-
-  private validateWhiteKropkiDot(
-    sudokuString: string,
-    whiteKropkiDot: KropkiDot,
-  ): ValidatorResult {
-    const value1 = Number(sudokuString.charAt(whiteKropkiDot.x1));
-    const value2 = Number(sudokuString.charAt(whiteKropkiDot.x2));
-
-    if (
-      value1 - (whiteKropkiDot.kropkiValue || 1) === value2 ||
-      value2 - (whiteKropkiDot.kropkiValue || 1) === value1
-    ) {
-      return { isValid: true, messages: [], invalidIndexes: new Set<number>() };
+    } else {
+      finalResult.messages.push(
+        `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`,
+      );
     }
+  });
 
-    return {
-      isValid: false,
-      messages: [],
-      invalidIndexes: new Set<number>()
-        .add(whiteKropkiDot.x1)
-        .add(whiteKropkiDot.x2),
-    };
+  return finalResult;
+};
+
+const validateWhiteKropkiDot = (
+  grid: Uint8Array,
+  whiteKropkiDot: KropkiDot,
+): ValidatorResult => {
+  const value1 = Number(grid[whiteKropkiDot.x1]);
+  const value2 = Number(grid[whiteKropkiDot.x2]);
+
+  if (
+    value1 - (whiteKropkiDot.kropkiValue || 1) === value2 ||
+    value2 - (whiteKropkiDot.kropkiValue || 1) === value1
+  ) {
+    return { isValid: true, messages: [], invalidIndexes: new Set<number>() };
   }
 
-  private validateBlackKropkiDot(
-    sudokuString: string,
-    blackKropkiDot: KropkiDot,
-  ): ValidatorResult {
-    const value1 = Number(sudokuString.charAt(blackKropkiDot.x1));
-    const value2 = Number(sudokuString.charAt(blackKropkiDot.x2));
+  return {
+    isValid: false,
+    messages: [],
+    invalidIndexes: new Set<number>()
+      .add(whiteKropkiDot.x1)
+      .add(whiteKropkiDot.x2),
+  };
+};
 
-    if (
-      value1 * (blackKropkiDot.kropkiValue || 2) === value2 ||
-      value2 * (blackKropkiDot.kropkiValue || 2) === value1
-    ) {
-      return { isValid: true, messages: [], invalidIndexes: new Set<number>() };
-    }
+const validateBlackKropkiDot = (
+  grid: Uint8Array,
+  blackKropkiDot: KropkiDot,
+): ValidatorResult => {
+  const value1 = Number(grid[blackKropkiDot.x1]);
+  const value2 = Number(grid[blackKropkiDot.x2]);
 
-    return {
-      isValid: false,
-      messages: [],
-      invalidIndexes: new Set<number>()
-        .add(blackKropkiDot.x1)
-        .add(blackKropkiDot.x2),
-    };
+  if (
+    value1 * (blackKropkiDot.kropkiValue || 2) === value2 ||
+    value2 * (blackKropkiDot.kropkiValue || 2) === value1
+  ) {
+    return { isValid: true, messages: [], invalidIndexes: new Set<number>() };
   }
-}
+
+  return {
+    isValid: false,
+    messages: [],
+    invalidIndexes: new Set<number>()
+      .add(blackKropkiDot.x1)
+      .add(blackKropkiDot.x2),
+  };
+};

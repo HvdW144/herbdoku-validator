@@ -1,4 +1,4 @@
-import { KropkiValidator } from "../../../src/validators/kropki-validator/kropkiValidator.class";
+import { validateKropki } from "../../../src/validators/kropki-validator/kropkiValidator.class";
 import type { KropkiDot } from "../../../src/validators/kropki-validator/kropkiDot.interface";
 import { VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4 } from "../../util/test-util/sudokuStrings";
 
@@ -9,12 +9,12 @@ describe("KropkiValidator", () => {
       { x1: 0, x2: 1, kropkiType: "white" },
       { x1: 3, x2: 4, kropkiType: 0 },
     ];
-    const kropkiValidator = new KropkiValidator(kropkiDotsArray);
 
     // act
-    const result = kropkiValidator.validate(
-      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4.join(""),
+    const result = validateKropki(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
       4,
+      kropkiDotsArray,
     );
 
     // assert
@@ -29,11 +29,12 @@ describe("KropkiValidator", () => {
       { x1: 0, x2: 1, kropkiType: "black" },
       { x1: 2, x2: 3, kropkiType: 1 },
     ];
-    const kropkiValidator = new KropkiValidator(kropkiDotsArray);
-    const sudokuString = "1242341223414123";
+    const grid = new Uint8Array([
+      1, 2, 4, 2, 3, 4, 1, 2, 2, 3, 4, 1, 4, 1, 2, 3,
+    ]);
 
     // act
-    const result = kropkiValidator.validate(sudokuString, 4);
+    const result = validateKropki(grid, 4, kropkiDotsArray);
 
     // assert
     expect(result.isValid).toBe(true);
@@ -48,11 +49,12 @@ describe("KropkiValidator", () => {
       { x1: 10, x2: 9, kropkiValue: 3, kropkiType: "black" }, // valid
       { x1: 13, x2: 14, kropkiValue: 3, kropkiType: 1 }, // invalid
     ];
-    const kropkiValidator = new KropkiValidator(kropkiDotsArray);
-    const sudokuString = "1242341223144123";
+    const grid = new Uint8Array([
+      1, 2, 4, 2, 3, 4, 1, 2, 2, 3, 1, 4, 4, 1, 2, 3,
+    ]);
 
     // act
-    const result = kropkiValidator.validate(sudokuString, 4);
+    const result = validateKropki(grid, 4, kropkiDotsArray);
 
     // assert
     expect(result.isValid).toBe(false);
@@ -67,11 +69,12 @@ describe("KropkiValidator", () => {
     const kropkiDotsArray: KropkiDot[] = [
       { x1: 13, x2: 16, kropkiType: "white" },
     ];
-    const kropkiValidator = new KropkiValidator(kropkiDotsArray);
-    const sudokuString = "1242341223414123";
+    const grid = new Uint8Array([
+      1, 2, 4, 2, 3, 4, 1, 2, 2, 3, 4, 1, 4, 1, 2, 3,
+    ]);
 
     // act
-    const result = kropkiValidator.validate(sudokuString, 4);
+    const result = validateKropki(grid, 4, kropkiDotsArray);
 
     // assert
     expect(result.isValid).toBe(true);
