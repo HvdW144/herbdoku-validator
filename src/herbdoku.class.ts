@@ -5,7 +5,7 @@ import { validateColumns } from "./validators/column-validator/validateColumns";
 import { validateRows } from "./validators/row-validator/validateRows";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
-import { validateKropki } from "./validators/kropki-validator/kropkiValidator.class";
+import { validateKropki } from "./validators/kropki-validator/validateKropki";
 import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
 import { DiagonalValidator } from "./validators/diagonal-validator/diagonalValidator.class";
 import { validateThermos } from "../functions";

@@ -1,5 +1,5 @@
-import { validateKropki } from "../../../src/validators/kropki-validator/kropkiValidator.class";
-import type { KropkiDot } from "../../../src/validators/kropki-validator/kropkiDot.interface";
+import { validateKropki } from "./validateKropki";
+import type { KropkiDot } from "./kropkiDot.interface";
 import { VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4 } from "../../util/test-util/sudokuStrings";
 
 describe("KropkiValidator", () => {
