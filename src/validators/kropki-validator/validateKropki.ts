@@ -7,43 +7,32 @@ export const validateKropki: ValidatorFunction<KropkiDot[]> = (
   gridSize: number,
   kropkiArray: KropkiDot[],
 ): ValidatorResult => {
-  const finalResult: ValidatorResult = {
+  let finalResult: ValidatorResult = {
     isValid: true,
     messages: [],
     invalidIndexes: new Set<number>(),
   };
 
   kropkiArray.forEach((kropkiDot) => {
-    let result: ValidatorResult;
-    if (
-      !(
-        kropkiDot.x1 < 0 ||
-        kropkiDot.x1 >= gridSize ** 2 ||
-        kropkiDot.x2 < 0 ||
-        kropkiDot.x2 >= gridSize ** 2
-      )
-    ) {
-      if (kropkiDot.kropkiType === "white" || kropkiDot.kropkiType === 0) {
-        result = validateWhiteKropkiDot(grid, kropkiDot);
-      } else if (
-        kropkiDot.kropkiType === "black" ||
-        kropkiDot.kropkiType === 1
-      ) {
-        result = validateBlackKropkiDot(grid, kropkiDot);
-      } else {
-        throw new Error("Invalid kropki type.");
-      }
-
-      if (!result.isValid) {
-        finalResult.isValid = false;
-        finalResult.invalidIndexes = finalResult.invalidIndexes.union(
-          result.invalidIndexes,
-        );
-      }
-    } else {
+    if (!isValidPosition(kropkiDot.x1, kropkiDot.x2, gridSize)) {
       finalResult.messages.push(
-        `One or more indexes of the kropki dot with indexes ${kropkiDot.x1} and ${kropkiDot.x2} are out of bounds. Result is ignored`,
+        kropkiOutOfBoundsMessage(kropkiDot.x1, kropkiDot.x2),
       );
+      return;
+    }
+
+    if (kropkiDot.kropkiType === "white" || kropkiDot.kropkiType === 0) {
+      finalResult = mergeValidatorResults(
+        finalResult,
+        validateWhiteKropkiDot(grid, kropkiDot),
+      );
+    } else if (kropkiDot.kropkiType === "black" || kropkiDot.kropkiType === 1) {
+      finalResult = mergeValidatorResults(
+        finalResult,
+        validateBlackKropkiDot(grid, kropkiDot),
+      );
+    } else {
+      throw new Error("Invalid kropki type: " + kropkiDot.kropkiType);
     }
   });
 
@@ -67,9 +56,7 @@ const validateWhiteKropkiDot = (
   return {
     isValid: false,
     messages: [],
-    invalidIndexes: new Set<number>()
-      .add(whiteKropkiDot.x1)
-      .add(whiteKropkiDot.x2),
+    invalidIndexes: new Set<number>([whiteKropkiDot.x1, whiteKropkiDot.x2]),
   };
 };
 
@@ -90,8 +77,35 @@ const validateBlackKropkiDot = (
   return {
     isValid: false,
     messages: [],
-    invalidIndexes: new Set<number>()
-      .add(blackKropkiDot.x1)
-      .add(blackKropkiDot.x2),
+    invalidIndexes: new Set<number>([blackKropkiDot.x1, blackKropkiDot.x2]),
   };
 };
+
+function isValidPosition(x1: number, x2: number, gridSize: number) {
+  return x1 >= 0 && x1 < gridSize ** 2 && x2 >= 0 && x2 < gridSize ** 2;
+}
+
+function kropkiOutOfBoundsMessage(x1: number, x2: number): string {
+  return `One or more indexes of the kropki dot with indexes ${x1} and ${x2} are out of bounds. Result is ignored`;
+}
+
+function mergeValidatorResults(
+  finalResult: ValidatorResult,
+  result: ValidatorResult,
+): ValidatorResult {
+  if (!result.isValid) {
+    //set false
+    finalResult.isValid = false;
+
+    //add invalid indexes
+    finalResult.invalidIndexes = finalResult.invalidIndexes.union(
+      result.invalidIndexes,
+    );
+  }
+
+  //add messages
+  if (result.messages) {
+    finalResult.messages.push(...result.messages);
+  }
+  return finalResult;
+}
