@@ -1,4 +1,4 @@
-import type { ValidatorResult } from "../validatorResult.interface";
+import type { IValidatorResult } from "../validatorResult.interface";
 import type { ValidatorClass } from "../validator.interface";
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 
@@ -19,7 +19,7 @@ export class DiagonalValidator implements ValidatorClass {
   public validate(
     sudokuString2D: string[][],
     gridSize: number,
-  ): ValidatorResult {
+  ): IValidatorResult {
     const duplicateIndexes: number[] = [];
     if (this.main) {
       const mainDiagonalValues = sudokuString2D.map((row, index) => row[index]);

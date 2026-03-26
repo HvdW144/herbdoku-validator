@@ -1,4 +1,5 @@
-import type { ValidatorResult } from "./validators/validatorResult.interface";
+import type { IValidatorResult } from "./validators/validatorResult.interface";
+import { ValidatorResult } from "./validators/validatorResult.class";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
 import { validateColumns } from "./validators/column-validator/validateColumns";
@@ -32,14 +33,10 @@ export class ConcreteHerbdoku implements IHerbdoku {
     this.sudokuGrid = new Uint8Array(
       sudokuString.split("").map((char) => parseInt(char, 10)),
     );
-    this.validatorResultTotal = {
-      isValid: true,
-      messages: [],
-      invalidIndexes: new Set<number>(),
-    };
+    this.validatorResultTotal = new ValidatorResult();
   }
 
-  public build(): ValidatorResult {
+  public build(): IValidatorResult {
     return this.validatorResultTotal;
   }
 
@@ -50,13 +47,13 @@ export class ConcreteHerbdoku implements IHerbdoku {
 
   public rows(): this {
     const result = validateRows(this.sudokuGrid, this.gridSize);
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
   public columns(): this {
     const result = validateColumns(this.sudokuGrid, this.gridSize);
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
@@ -65,21 +62,21 @@ export class ConcreteHerbdoku implements IHerbdoku {
       this.getSudokuString(),
       this.gridSize,
     );
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
   //kropki validation
   public kropki(kropkiDots: KropkiDot[]): this {
     const result = validateKropki(this.sudokuGrid, this.gridSize, kropkiDots);
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
   //thermo validation
   public thermos(thermoArray: Thermometer[]): this {
     const result = validateThermos(this.sudokuGrid, this.gridSize, thermoArray);
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
@@ -88,27 +85,8 @@ export class ConcreteHerbdoku implements IHerbdoku {
       this.sudokuString2D,
       this.gridSize,
     );
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
-  }
-
-  //--------- helper methods ---------
-  private appendValidatorResultTotal(validatorResult: ValidatorResult) {
-    if (!validatorResult.isValid) {
-      //set false
-      this.validatorResultTotal.isValid = false;
-
-      //add invalid indexes
-      this.validatorResultTotal.invalidIndexes =
-        this.validatorResultTotal.invalidIndexes.union(
-          validatorResult.invalidIndexes,
-        );
-    }
-
-    //add messages
-    if (validatorResult.messages) {
-      this.validatorResultTotal.messages.push(...validatorResult.messages);
-    }
   }
 
   /**

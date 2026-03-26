@@ -1,17 +1,14 @@
 import type { ValidatorFunction } from "../../types/validatorFunction.type";
-import type { ValidatorResult } from "../validatorResult.interface";
+import { ValidatorResult } from "../validatorResult.class";
+import type { IValidatorResult } from "../validatorResult.interface";
 import type { KropkiDot } from "./kropkiDot.interface";
 
 export const validateKropki: ValidatorFunction<KropkiDot[]> = (
   grid: Uint8Array,
   gridSize: number,
   kropkiArray: KropkiDot[],
-): ValidatorResult => {
-  let finalResult: ValidatorResult = {
-    isValid: true,
-    messages: [],
-    invalidIndexes: new Set<number>(),
-  };
+): IValidatorResult => {
+  const finalResult = new ValidatorResult();
 
   kropkiArray.forEach((kropkiDot) => {
     if (!isValidPosition(kropkiDot.x1, kropkiDot.x2, gridSize)) {
@@ -22,15 +19,9 @@ export const validateKropki: ValidatorFunction<KropkiDot[]> = (
     }
 
     if (kropkiDot.kropkiType === "white" || kropkiDot.kropkiType === 0) {
-      finalResult = mergeValidatorResults(
-        finalResult,
-        validateWhiteKropkiDot(grid, kropkiDot),
-      );
+      finalResult.append(validateWhiteKropkiDot(grid, kropkiDot));
     } else if (kropkiDot.kropkiType === "black" || kropkiDot.kropkiType === 1) {
-      finalResult = mergeValidatorResults(
-        finalResult,
-        validateBlackKropkiDot(grid, kropkiDot),
-      );
+      finalResult.append(validateBlackKropkiDot(grid, kropkiDot));
     } else {
       throw new Error("Invalid kropki type: " + kropkiDot.kropkiType);
     }
@@ -42,7 +33,7 @@ export const validateKropki: ValidatorFunction<KropkiDot[]> = (
 const validateWhiteKropkiDot = (
   grid: Uint8Array,
   whiteKropkiDot: KropkiDot,
-): ValidatorResult => {
+): IValidatorResult => {
   const value1 = Number(grid[whiteKropkiDot.x1]);
   const value2 = Number(grid[whiteKropkiDot.x2]);
 
@@ -63,7 +54,7 @@ const validateWhiteKropkiDot = (
 const validateBlackKropkiDot = (
   grid: Uint8Array,
   blackKropkiDot: KropkiDot,
-): ValidatorResult => {
+): IValidatorResult => {
   const value1 = Number(grid[blackKropkiDot.x1]);
   const value2 = Number(grid[blackKropkiDot.x2]);
 
@@ -87,25 +78,4 @@ function isValidPosition(x1: number, x2: number, gridSize: number) {
 
 function kropkiOutOfBoundsMessage(x1: number, x2: number): string {
   return `One or more indexes of the kropki dot with indexes ${x1} and ${x2} are out of bounds. Result is ignored`;
-}
-
-function mergeValidatorResults(
-  finalResult: ValidatorResult,
-  result: ValidatorResult,
-): ValidatorResult {
-  if (!result.isValid) {
-    //set false
-    finalResult.isValid = false;
-
-    //add invalid indexes
-    finalResult.invalidIndexes = finalResult.invalidIndexes.union(
-      result.invalidIndexes,
-    );
-  }
-
-  //add messages
-  if (result.messages) {
-    finalResult.messages.push(...result.messages);
-  }
-  return finalResult;
 }

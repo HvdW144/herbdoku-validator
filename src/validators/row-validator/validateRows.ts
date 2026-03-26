@@ -1,11 +1,11 @@
-import type { ValidatorResult } from "../validatorResult.interface";
+import type { IValidatorResult } from "../validatorResult.interface";
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 import type { ValidatorFunction } from "../../types/validatorFunction.type";
 
 export const validateRows: ValidatorFunction = (
   grid: Uint8Array,
   gridSize: number,
-): ValidatorResult => {
+): IValidatorResult => {
   const duplicateIndexes: Set<number> = new Set();
   for (let i = 0; i < gridSize; i++) {
     const rowStart = i * gridSize;

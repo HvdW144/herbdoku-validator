@@ -1,4 +1,4 @@
-import type { ValidatorResult } from "../validatorResult.interface";
+import type { IValidatorResult } from "../validatorResult.interface";
 import type { Thermometer } from "./thermometer.interface";
 import type { ValidatorFunction } from "../../types/validatorFunction.type";
 
@@ -6,8 +6,8 @@ export const validateThermos: ValidatorFunction<Thermometer[]> = (
   grid: Uint8Array,
   _: number,
   thermoArray: Thermometer[],
-): ValidatorResult => {
-  const finalResult: ValidatorResult = {
+): IValidatorResult => {
+  const finalResult: IValidatorResult = {
     isValid: true,
     messages: [],
     invalidIndexes: new Set<number>(),

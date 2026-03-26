@@ -1,4 +1,4 @@
-export interface ValidatorResult {
+export interface IValidatorResult {
   /**
    * Contains true when all issued checks are found valid.
    */

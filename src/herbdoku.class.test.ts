@@ -1,7 +1,7 @@
 import { ConcreteHerbdoku as Herbdoku } from "../src/herbdoku.class";
 import type { KropkiDot } from "../src/validators/kropki-validator/kropkiDot.interface";
 import type { Thermometer } from "../src/validators/thermo-validator/thermometer.interface";
-import type { ValidatorResult } from "./validators/validatorResult.interface";
+import type { IValidatorResult } from "./validators/validatorResult.interface";
 
 describe("Herbdoku", () => {
   let herbdoku: Herbdoku;
@@ -32,7 +32,7 @@ describe("Herbdoku", () => {
 
     // assert
     expect(buildMock).toHaveBeenCalled();
-    expect(buildMock).toHaveReturnedWith<ValidatorResult>({
+    expect(buildMock).toHaveReturnedWith<IValidatorResult>({
       isValid: true,
       messages: [],
       invalidIndexes: new Set<number>(),

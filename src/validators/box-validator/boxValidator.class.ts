@@ -1,10 +1,10 @@
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 import type { ValidatorClass } from "../validator.interface";
-import type { ValidatorResult } from "../validatorResult.interface";
+import type { IValidatorResult } from "../validatorResult.interface";
 import boxIndexes from "./boxIndexes.json";
 
 export class BoxValidator implements ValidatorClass {
-  public validate(sudokuString: string, gridSize: number): ValidatorResult {
+  public validate(sudokuString: string, gridSize: number): IValidatorResult {
     const duplicateIndexes = new Set<number>();
     const boxIndexes = this.getBoxIndexesForGivenGridSize(gridSize);
     const boxValues = boxIndexes.map((box) => {
