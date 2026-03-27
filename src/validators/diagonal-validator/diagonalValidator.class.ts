@@ -1,8 +1,8 @@
-import type { ValidatorResult } from "../validatorResult.interface";
-import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import type { Validator } from "../validator.interface";
+import type { IValidatorResult } from "../validatorResult.interface";
+import type { ValidatorClass } from "../validator.interface";
+import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
 
-export class DiagonalValidator implements Validator {
+export class DiagonalValidator implements ValidatorClass {
   private main: boolean = false;
   private anti: boolean = false;
 
@@ -19,7 +19,7 @@ export class DiagonalValidator implements Validator {
   public validate(
     sudokuString2D: string[][],
     gridSize: number,
-  ): ValidatorResult {
+  ): IValidatorResult {
     const duplicateIndexes: number[] = [];
     if (this.main) {
       const mainDiagonalValues = sudokuString2D.map((row, index) => row[index]);
@@ -60,7 +60,7 @@ export class DiagonalValidator implements Validator {
       );
     }
 
-    const duplicates = validateSetNoDoubles(diagonalStringArray as string[]);
+    const duplicates = findDuplicateIndexes(diagonalStringArray as string[]);
     const duplicateIndexes: number[] = [];
     duplicates.map((index) => {
       const row = index;

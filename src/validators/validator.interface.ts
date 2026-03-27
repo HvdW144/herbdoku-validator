@@ -1,8 +1,11 @@
-import type { ValidatorResult } from "./validatorResult.interface";
+import type { IValidatorResult } from "./validatorResult.interface";
 
-export interface Validator {
+/**
+ * @deprecated - use ValidatorFunction instead
+ */
+export interface ValidatorClass {
   validate(
     sudokuString2D: string | string[][],
-    gridSize: number
-  ): ValidatorResult;
+    gridSize: number,
+  ): IValidatorResult;
 }

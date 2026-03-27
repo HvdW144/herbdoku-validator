@@ -1,11 +1,11 @@
-import { validateSetNoDoubles } from "../validator-util/validateSet.util";
-import type { Validator } from "../validator.interface";
-import type { ValidatorResult } from "../validatorResult.interface";
+import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
+import type { ValidatorClass } from "../validator.interface";
+import type { IValidatorResult } from "../validatorResult.interface";
 import boxIndexes from "./boxIndexes.json";
 
-export class BoxValidator implements Validator {
-  public validate(sudokuString: string, gridSize: number): ValidatorResult {
-    const duplicateIndexes: number[] = [];
+export class BoxValidator implements ValidatorClass {
+  public validate(sudokuString: string, gridSize: number): IValidatorResult {
+    const duplicateIndexes = new Set<number>();
     const boxIndexes = this.getBoxIndexesForGivenGridSize(gridSize);
     const boxValues = boxIndexes.map((box) => {
       return box.map((index) => {
@@ -14,14 +14,14 @@ export class BoxValidator implements Validator {
     });
 
     boxValues.forEach((box: string[]) => {
-      const boxDuplicates = validateSetNoDoubles(box);
+      const boxDuplicates = findDuplicateIndexes(box);
       boxDuplicates.map((index) => {
         const boxIndex = boxValues.indexOf(box);
-        duplicateIndexes.push(boxIndexes.at(boxIndex)?.at(index) as number);
+        duplicateIndexes.add(boxIndexes.at(boxIndex)?.at(index) as number);
       });
     });
 
-    const isValid = duplicateIndexes.length === 0;
+    const isValid = duplicateIndexes.size === 0;
 
     return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
   }

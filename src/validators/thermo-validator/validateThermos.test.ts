@@ -1,8 +1,8 @@
-import { ThermoValidator } from "../../../src/validators/thermo-validator/thermoValidator.class";
-import type { Thermometer } from "../../../src/validators/thermo-validator/thermometer.interface";
+import { validateThermos } from "./validateThermos";
+import type { Thermometer } from "./thermometer.interface";
 import {
-  VALID_DEFAULT_SUDOKU_STRING_4X4,
-  VALID_DEFAULT_SUDOKU_STRING_9X9,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
 } from "../../util/test-util/sudokuStrings";
 
 describe("ThermoValidator", () => {
@@ -13,14 +13,17 @@ describe("ThermoValidator", () => {
         indexes: [0, 1, 2, 3],
       },
     ];
-    const thermoValidator = new ThermoValidator(thermoArray);
 
     // act
-    const result = thermoValidator.validate(VALID_DEFAULT_SUDOKU_STRING_4X4);
+    const result = validateThermos(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
+      4,
+      thermoArray,
+    );
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return empty array for an invalid normal thermo", () => {
@@ -30,15 +33,16 @@ describe("ThermoValidator", () => {
         indexes: [0, 1, 2, 3, 4],
       },
     ];
-    const thermoValidator = new ThermoValidator(thermoArray);
-    const sudokuString = "1234241223414123";
+    const sudokuGrid = new Uint8Array([
+      1, 2, 3, 4, 2, 4, 1, 2, 2, 3, 4, 1, 4, 1, 2, 3,
+    ]);
 
     // act
-    const result = thermoValidator.validate(sudokuString);
+    const result = validateThermos(sudokuGrid, 4, thermoArray);
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([4]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([4]));
   });
 
   it("validate - should return empty array for a valid 9x9 grid", () => {
@@ -53,14 +57,17 @@ describe("ThermoValidator", () => {
         thermoDifference: 0,
       },
     ];
-    const rowValidator = new ThermoValidator(thermoArray);
 
     // act
-    const result = rowValidator.validate(VALID_DEFAULT_SUDOKU_STRING_9X9);
+    const result = validateThermos(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
+      9,
+      thermoArray,
+    );
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
@@ -75,15 +82,18 @@ describe("ThermoValidator", () => {
         thermoDifference: 0,
       },
     ];
-    const thermoValidator = new ThermoValidator(thermoArray);
-    const sudokuString =
-      "256473891974821536183569427691382754328754169547196283465237918732918645819645372";
+    const sudokuGrid = new Uint8Array([
+      2, 5, 6, 4, 7, 3, 8, 9, 1, 9, 7, 4, 8, 2, 1, 5, 3, 6, 1, 8, 3, 5, 6, 9, 4,
+      2, 7, 6, 9, 1, 3, 8, 2, 7, 5, 4, 3, 2, 8, 7, 5, 4, 1, 6, 9, 5, 4, 7, 1, 9,
+      6, 2, 8, 3, 4, 6, 5, 2, 3, 7, 9, 1, 8, 7, 3, 2, 9, 1, 8, 6, 4, 5, 8, 1, 9,
+      6, 4, 5, 3, 7, 2,
+    ]);
 
     // act
-    const result = thermoValidator.validate(sudokuString);
+    const result = validateThermos(sudokuGrid, 9, thermoArray);
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([69, 11]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([69, 11]));
   });
 });

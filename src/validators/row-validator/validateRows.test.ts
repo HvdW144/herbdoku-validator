@@ -1,4 +1,4 @@
-import { RowValidator } from "../../../src/validators/row-validator/rowValidator.class";
+import { validateRows } from "./validateRows";
 import {
   VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
   VALID_DEFAULT_SUDOKU_STRING_2D_9x9,
@@ -7,49 +7,54 @@ import {
 describe("RowValidator", () => {
   it("validate - should return empty array for a valid 4x4 grid", () => {
     // arrange
-    const rowValidator = new RowValidator();
+    const uint8Grid = stringGridToUint8Array(
+      VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
+    );
 
     // act
-    const result = rowValidator.validate(VALID_DEFAULT_SUDOKU_STRING_2D_4x4, 4);
+    const result = validateRows(uint8Grid, 4);
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return array with duplicates for an invalid 4x4 grid", () => {
     // arrange
-    const rowValidator = new RowValidator();
     const sudokuString2D = [
       ["1", "2", "3", "4"],
       ["3", "4", "1", "2"],
-      ["2", "3", "4", "1"],
+      ["2", "3", "4", "2"],
       ["4", "1", "2", "4"],
     ];
+    const uint8Grid = stringGridToUint8Array(sudokuString2D);
 
     // act
-    const result = rowValidator.validate(sudokuString2D, 4);
+    const result = validateRows(uint8Grid, 4);
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([12, 15]);
+    expect(result.invalidIndexes).toStrictEqual(
+      new Set<number>([8, 11, 12, 15]),
+    );
   });
 
   it("validate - should return empty array for a valid 9x9 grid", () => {
     // arrange
-    const rowValidator = new RowValidator();
+    const uint8Grid = stringGridToUint8Array(
+      VALID_DEFAULT_SUDOKU_STRING_2D_9x9,
+    );
 
     // act
-    const result = rowValidator.validate(VALID_DEFAULT_SUDOKU_STRING_2D_9x9, 9);
+    const result = validateRows(uint8Grid, 9);
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
     // arrange
-    const rowValidator = new RowValidator();
     const sudokuString2D = [
       ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
       ["3", "4", "1", "2", "5", "6", "7", "8", "9"],
@@ -61,12 +66,24 @@ describe("RowValidator", () => {
       ["8", "9", "1", "2", "3", "4", "5", "6", "7"],
       ["9", "1", "2", "3", "4", "5", "6", "7", "9"],
     ];
+    const uint8Grid = stringGridToUint8Array(sudokuString2D);
 
     // act
-    const result = rowValidator.validate(sudokuString2D, 9);
+    const result = validateRows(uint8Grid, 9);
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([72, 80]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([72, 80]));
   });
 });
+
+// Helper to convert 2D string arrays to Uint8Array
+function stringGridToUint8Array(grid: string[][]): Uint8Array {
+  return new Uint8Array(
+    grid
+      .map((row) => row.join(""))
+      .join("")
+      .split("")
+      .map((char) => parseInt(char, 10)),
+  );
+}
