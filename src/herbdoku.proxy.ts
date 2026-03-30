@@ -49,7 +49,7 @@ export class HerbdokuProxy implements IHerbdoku {
     return this;
   }
 
-  public diagonals(main?: boolean, anti?: boolean): this {
+  public diagonals(main: boolean = true, anti: boolean = true): this {
     this.herbdoku.diagonals(main, anti);
     return this;
   }
@@ -106,7 +106,7 @@ export class HerbdokuProxy implements IHerbdoku {
   /**
    * @deprecated - use diagonals() instead, will be removed in v1.0.0
    */
-  public validateDiagonals(main?: boolean, anti?: boolean): this {
+  public validateDiagonals(main: boolean = true, anti: boolean = true): this {
     this.herbdoku.diagonals(main, anti);
     return this;
   }

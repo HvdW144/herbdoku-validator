@@ -1,72 +1,46 @@
 import type { IValidatorResult } from "../validatorResult.interface";
-import type { ValidatorClass } from "../validator.interface";
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
+import type { ValidatorFunction } from "../../types/validatorFunction.type";
 
-export class DiagonalValidator implements ValidatorClass {
-  private main: boolean = false;
-  private anti: boolean = false;
+export const validateDiagonals: ValidatorFunction<{
+  main?: boolean;
+  anti?: boolean;
+}> = (
+  grid: Uint8Array,
+  gridSize: number,
+  options?: { main?: boolean; anti?: boolean },
+): IValidatorResult => {
+  const mainCheck = options?.main ?? true;
+  const antiCheck = options?.anti ?? true;
 
-  constructor(main?: boolean, anti?: boolean) {
-    if (typeof main === "undefined" && typeof anti === "undefined") {
-      this.main = true;
-      this.anti = true;
-    } else {
-      this.main = main || false;
-      this.anti = anti || false;
+  const duplicateIndexes: Set<number> = new Set();
+
+  if (mainCheck) {
+    const mainValues: Uint8Array = new Uint8Array(gridSize);
+    for (let i = 0; i < gridSize; i++) {
+      mainValues[i] = grid[i * gridSize + i] as number;
     }
-  }
-
-  public validate(
-    sudokuString2D: string[][],
-    gridSize: number,
-  ): IValidatorResult {
-    const duplicateIndexes: number[] = [];
-    if (this.main) {
-      const mainDiagonalValues = sudokuString2D.map((row, index) => row[index]);
-
-      duplicateIndexes.push(
-        ...this.checkDiagonal(mainDiagonalValues, gridSize),
-      );
-    }
-
-    if (this.anti) {
-      const antiDiagonalValues = sudokuString2D.map(
-        (row, index) => row[gridSize - 1 - index],
-      );
-
-      duplicateIndexes.push(
-        ...this.checkDiagonal(antiDiagonalValues, gridSize, true),
-      );
-    }
-
-    const isValid = duplicateIndexes.length === 0;
-
-    return {
-      isValid,
-      messages: [],
-      invalidIndexes: duplicateIndexes.sort((a, b) => a - b),
-    };
-  }
-
-  //refactor this shit
-  private checkDiagonal(
-    diagonalStringArray: (string | undefined)[],
-    gridSize: number,
-    isAntiDiagonal: boolean = false,
-  ) {
-    if (diagonalStringArray.includes(undefined)) {
-      throw new Error(
-        `${isAntiDiagonal ? "Anti" : "Main"} diagonal contains undefined values.`,
-      );
-    }
-
-    const duplicates = findDuplicateIndexes(diagonalStringArray as string[]);
-    const duplicateIndexes: number[] = [];
-    duplicates.map((index) => {
-      const row = index;
-      const col = isAntiDiagonal ? gridSize - 1 - index : index;
-      duplicateIndexes.push(row * gridSize + col);
+    const mainDuplicates = findDuplicateIndexes(mainValues, 0, gridSize);
+    mainDuplicates.map((index) => {
+      duplicateIndexes.add(index * gridSize + index);
     });
-    return duplicateIndexes;
   }
-}
+
+  if (antiCheck) {
+    const antiValues: Uint8Array = new Uint8Array(gridSize);
+    for (let i = 0; i < gridSize; i++) {
+      antiValues[i] = grid[i * gridSize + (gridSize - 1 - i)] as number;
+    }
+    const antiDuplicates = findDuplicateIndexes(antiValues, 0, gridSize);
+    antiDuplicates.map((index) => {
+      duplicateIndexes.add(index * gridSize + (gridSize - 1 - index));
+    });
+  }
+  const isValid = duplicateIndexes.size === 0;
+
+  return {
+    isValid: isValid,
+    messages: [],
+    invalidIndexes: duplicateIndexes,
+  };
+};
