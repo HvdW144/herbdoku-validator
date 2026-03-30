@@ -8,7 +8,7 @@ import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
 import { validateKropki } from "./validators/kropki-validator/validateKropki";
 import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
-import { validateDiagonals } from "./validators/diagonal-validator/diagonalValidator.class";
+import { validateDiagonals } from "./validators/diagonal-validator/validateDiagonal";
 import { validateThermos } from "../functions";
 
 export class ConcreteHerbdoku implements IHerbdoku {

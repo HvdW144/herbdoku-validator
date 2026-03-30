@@ -1,5 +1,5 @@
 import { VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4 } from "../../util/test-util/sudokuStrings";
-import { validateDiagonals } from "./diagonalValidator.class";
+import { validateDiagonals } from "./validateDiagonal";
 
 describe("validateDiagonals", () => {
   it("should return empty array for a valid 4x4 grid", () => {
