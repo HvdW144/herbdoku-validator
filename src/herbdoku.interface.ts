@@ -21,8 +21,8 @@ export interface IHerbdoku {
   /**
    * Validates that the diagonals don't contain duplicate numbers (x sudoku rule),
    * only works for square grids.
-   * @param main - main diagonal, from top left to bottom right
-   * @param anti - anti diagonal, from top right to bottom left
+   * @param main - main diagonal, from top left to bottom right, defaults to true
+   * @param anti - anti diagonal, from top right to bottom left, defaults to true
    */
   diagonals(main?: boolean, anti?: boolean): this;
 }

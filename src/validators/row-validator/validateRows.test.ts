@@ -1,25 +1,20 @@
 import { validateRows } from "./validateRows";
 import {
-  VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
-  VALID_DEFAULT_SUDOKU_STRING_2D_9x9,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
 } from "../../util/test-util/sudokuStrings";
 
-describe("RowValidator", () => {
-  it("validate - should return empty array for a valid 4x4 grid", () => {
-    // arrange
-    const uint8Grid = stringGridToUint8Array(
-      VALID_DEFAULT_SUDOKU_STRING_2D_4x4,
-    );
-
+describe("validateRows", () => {
+  it("should return empty array for a valid 4x4 grid", () => {
     // act
-    const result = validateRows(uint8Grid, 4);
+    const result = validateRows(VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4, 4);
 
     // assert
     expect(result.isValid).toBe(true);
     expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
-  it("validate - should return array with duplicates for an invalid 4x4 grid", () => {
+  it("should return array with duplicates for an invalid 4x4 grid", () => {
     // arrange
     const sudokuString2D = [
       ["1", "2", "3", "4"],
@@ -39,21 +34,16 @@ describe("RowValidator", () => {
     );
   });
 
-  it("validate - should return empty array for a valid 9x9 grid", () => {
-    // arrange
-    const uint8Grid = stringGridToUint8Array(
-      VALID_DEFAULT_SUDOKU_STRING_2D_9x9,
-    );
-
+  it("should return empty array for a valid 9x9 grid", () => {
     // act
-    const result = validateRows(uint8Grid, 9);
+    const result = validateRows(VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9, 9);
 
     // assert
     expect(result.isValid).toBe(true);
     expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
-  it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
+  it("should return array with duplicates for an invalid 9x9 grid", () => {
     // arrange
     const sudokuString2D = [
       ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
