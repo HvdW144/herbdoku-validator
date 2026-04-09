@@ -1,7 +1,7 @@
 import type { IValidatorResult } from "./validators/validatorResult.interface";
 import { ValidatorResult } from "./validators/validatorResult.class";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
-import { BoxValidator } from "./validators/box-validator/boxValidator.class";
+import { validateBoxes } from "./validators/box-validator/boxValidator.class";
 import { validateColumns } from "./validators/column-validator/validateColumns";
 import { validateRows } from "./validators/row-validator/validateRows";
 import type { IHerbdoku } from "./herbdoku.interface";
@@ -58,10 +58,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
   }
 
   public boxes(): this {
-    const result = new BoxValidator().validate(
-      this.getSudokuString(),
-      this.gridSize,
-    );
+    const result = validateBoxes(this.sudokuGrid, this.gridSize);
     this.validatorResultTotal.append(result);
     return this;
   }

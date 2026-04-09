@@ -1,61 +1,53 @@
-import { BoxValidator } from "../../../src/validators/box-validator/boxValidator.class";
+import { validateBoxes } from "../../../src/validators/box-validator/boxValidator.class";
 import {
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
 } from "../../util/test-util/sudokuStrings";
 
-describe("BoxValidator", () => {
-  it("validate - should return empty array for a valid 4x4 grid", () => {
-    // arrange
-    const boxValidator = new BoxValidator();
+// Helper function to convert string to Uint8Array
+function stringToUint8Array(str: string): Uint8Array {
+  return new Uint8Array(str.split("").map((char) => parseInt(char)));
+}
 
+describe("validateBoxes", () => {
+  it("should return empty array for a valid 4x4 grid", () => {
     // act
-    const result = boxValidator.validate(
-      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4.join(""),
-      4,
-    );
+    const result = validateBoxes(VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4, 4);
 
     // assert
     expect(result.isValid).toBe(true);
     expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
-  it("validate - should return array with duplicates for an invalid 4x4 grid", () => {
+  it("should return array with duplicates for an invalid 4x4 grid", () => {
     // arrange
-    const boxValidator = new BoxValidator();
-    const sudokuString = "1234341223414124";
+    const sudokuGrid = stringToUint8Array("1234341223414124");
 
     // act
-    const result = boxValidator.validate(sudokuString, 4);
+    const result = validateBoxes(sudokuGrid, 4);
 
     // assert
     expect(result.isValid).toBe(false);
     expect(result.invalidIndexes).toStrictEqual(new Set<number>([10, 15]));
   });
 
-  it("validate - should return empty array for a valid 9x9 grid", () => {
-    // arrange
-    const boxValidator = new BoxValidator();
-
+  it("should return empty array for a valid 9x9 grid", () => {
     // act
-    const result = boxValidator.validate(
-      VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9.join(""),
-      9,
-    );
+    const result = validateBoxes(VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9, 9);
 
     // assert
     expect(result.invalidIndexes).toStrictEqual(new Set<number>());
     expect(result.isValid).toBe(true);
   });
 
-  it("validate - should return array with duplicates for an invalid 9x9 grid", () => {
+  it("should return array with duplicates for an invalid 9x9 grid", () => {
     // arrange
-    const boxValidator = new BoxValidator();
-    const sudokuString =
-      "256473891974821536183569427691382754328754169547196283465237918732918645819645373";
+    const sudokuGrid = stringToUint8Array(
+      "256473891974821536183569427691382754328754169547196283465237918732918645819645373",
+    );
 
     // act
-    const result = boxValidator.validate(sudokuString, 9);
+    const result = validateBoxes(sudokuGrid, 9);
 
     // assert
     expect(result.isValid).toBe(false);

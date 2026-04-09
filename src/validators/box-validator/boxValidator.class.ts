@@ -1,39 +1,46 @@
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
-import type { ValidatorClass } from "../validator.interface";
 import type { IValidatorResult } from "../validatorResult.interface";
-import boxIndexes from "./boxIndexes.json";
+import type { ValidatorFunction } from "../../types/validatorFunction.type";
 
-export class BoxValidator implements ValidatorClass {
-  public validate(sudokuString: string, gridSize: number): IValidatorResult {
-    const duplicateIndexes = new Set<number>();
-    const boxIndexes = this.getBoxIndexesForGivenGridSize(gridSize);
-    const boxValues = boxIndexes.map((box) => {
-      return box.map((index) => {
-        return sudokuString.charAt(index);
-      });
-    });
+export const validateBoxes: ValidatorFunction = (
+  grid: Uint8Array,
+  gridSize: number,
+): IValidatorResult => {
+  const duplicateIndexes: Set<number> = new Set();
+  const boxSize = Math.sqrt(gridSize);
 
-    boxValues.forEach((box: string[]) => {
-      const boxDuplicates = findDuplicateIndexes(box);
-      boxDuplicates.map((index) => {
-        const boxIndex = boxValues.indexOf(box);
-        duplicateIndexes.add(boxIndexes.at(boxIndex)?.at(index) as number);
-      });
-    });
+  // Group cell indexes by their box
+  const boxes: Map<number, number[]> = new Map();
+  for (let i = 0; i < grid.length; i++) {
+    const row = Math.floor(i / gridSize);
+    const col = i % gridSize;
+    const boxRow = Math.floor(row / boxSize);
+    const boxCol = Math.floor(col / boxSize);
+    const boxId = boxRow * boxSize + boxCol;
 
-    const isValid = duplicateIndexes.size === 0;
-
-    return { isValid: isValid, messages: [], invalidIndexes: duplicateIndexes };
-  }
-
-  private getBoxIndexesForGivenGridSize(gridSize: number): number[][] {
-    switch (gridSize) {
-      case 4:
-        return boxIndexes[4];
-      case 9:
-        return boxIndexes[9];
-      default:
-        throw new Error("Grid size not supported.");
+    if (!boxes.has(boxId)) {
+      boxes.set(boxId, []);
     }
+    boxes.get(boxId)!.push(i);
   }
-}
+
+  // Check each box for duplicates
+  boxes.forEach((cellIndexes) => {
+    const boxValues = new Uint8Array(cellIndexes.length);
+    for (let j = 0; j < cellIndexes.length; j++) {
+      boxValues[j] = grid[cellIndexes[j]!]!;
+    }
+    const boxDuplicates = findDuplicateIndexes(boxValues);
+    boxDuplicates.forEach((duplicatePosition) => {
+      duplicateIndexes.add(cellIndexes[duplicatePosition]!);
+    });
+  });
+
+  const isValid = duplicateIndexes.size === 0;
+
+  return {
+    isValid: isValid,
+    messages: [],
+    invalidIndexes: duplicateIndexes,
+  };
+};
