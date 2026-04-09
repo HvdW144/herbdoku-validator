@@ -1,7 +1,7 @@
 import type { IValidatorResult } from "./validators/validatorResult.interface";
 import { ValidatorResult } from "./validators/validatorResult.class";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
-import { validateBoxes } from "./validators/box-validator/boxValidator.class";
+import { validateBoxes } from "./validators/box-validator/validateBoxes";
 import { validateColumns } from "./validators/column-validator/validateColumns";
 import { validateRows } from "./validators/row-validator/validateRows";
 import type { IHerbdoku } from "./herbdoku.interface";

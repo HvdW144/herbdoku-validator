@@ -1,4 +1,4 @@
-import { validateBoxes } from "../../../src/validators/box-validator/boxValidator.class";
+import { validateBoxes } from "./validateBoxes";
 import {
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
