@@ -77,7 +77,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this;
   }
 
-  public diagonals(main: boolean, anti: boolean): this {
+  public diagonals(main?: boolean, anti?: boolean): this {
     const result = validateDiagonals(this.sudokuGrid, this.gridSize, {
       main,
       anti,
