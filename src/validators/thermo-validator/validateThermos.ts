@@ -1,6 +1,10 @@
 import type { IValidatorResult } from "../validatorResult.interface";
 import type { Thermometer } from "./thermometer.interface";
-import type { ValidatorFunction } from "../../types/validatorFunction.type";
+import type {
+  ValidatorFunctionWrapper,
+  ValidatorFunction,
+} from "../../types/validatorFunction.type";
+import { withStringInput } from "../../util/withStringInput.util";
 
 export const validateThermos: ValidatorFunction<Thermometer[]> = (
   grid: Uint8Array,
@@ -37,3 +41,6 @@ export const validateThermos: ValidatorFunction<Thermometer[]> = (
 
   return finalResult;
 };
+
+export const validateThermosWrapper: ValidatorFunctionWrapper<Thermometer[]> =
+  withStringInput(validateThermos);

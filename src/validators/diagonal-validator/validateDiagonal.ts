@@ -1,6 +1,10 @@
 import type { IValidatorResult } from "../validatorResult.interface";
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
-import type { ValidatorFunction } from "../../types/validatorFunction.type";
+import type {
+  ValidatorFunctionWrapper,
+  ValidatorFunction,
+} from "../../types/validatorFunction.type";
+import { withStringInput } from "../../util/withStringInput.util";
 
 export const validateDiagonals: ValidatorFunction<{
   main?: boolean;
@@ -44,3 +48,8 @@ export const validateDiagonals: ValidatorFunction<{
     invalidIndexes: duplicateIndexes,
   };
 };
+
+export const validateDiagonalsWrapper: ValidatorFunctionWrapper<{
+  main?: boolean;
+  anti?: boolean;
+}> = withStringInput(validateDiagonals);

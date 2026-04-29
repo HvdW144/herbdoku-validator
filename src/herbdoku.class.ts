@@ -9,7 +9,8 @@ import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interfac
 import { validateKropki } from "./validators/kropki-validator/validateKropki";
 import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
 import { validateDiagonals } from "./validators/diagonal-validator/validateDiagonal";
-import { validateThermos } from "../functions";
+import { stringToUint8Array } from "./util/stringToUint8Array.util";
+import { validateThermos } from "./validators/thermo-validator/validateThermos";
 
 export class ConcreteHerbdoku implements IHerbdoku {
   /**
@@ -30,9 +31,7 @@ export class ConcreteHerbdoku implements IHerbdoku {
 
     this.gridSize = gridSize;
     this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
-    this.sudokuGrid = new Uint8Array(
-      sudokuString.split("").map((char) => parseInt(char, 10)),
-    );
+    this.sudokuGrid = stringToUint8Array(sudokuString, gridSize);
     this.validatorResultTotal = new ValidatorResult();
   }
 

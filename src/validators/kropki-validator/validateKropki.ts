@@ -1,7 +1,11 @@
-import type { ValidatorFunction } from "../../types/validatorFunction.type";
+import type {
+  ValidatorFunctionWrapper,
+  ValidatorFunction,
+} from "../../types/validatorFunction.type";
 import { ValidatorResult } from "../validatorResult.class";
 import type { IValidatorResult } from "../validatorResult.interface";
 import type { KropkiDot } from "./kropkiDot.interface";
+import { withStringInput } from "../../util/withStringInput.util";
 
 const DEFAULT_WHITE_DIFF = 1;
 const DEFAULT_BLACK_RATIO = 2;
@@ -27,6 +31,9 @@ export const validateKropki: ValidatorFunction<KropkiDot[]> = (
 
   return finalResult;
 };
+
+export const validateKropkiWrapper: ValidatorFunctionWrapper<KropkiDot[]> =
+  withStringInput(validateKropki);
 
 const getKropkiValidator = (
   kropkiType: "white" | "black" | 0 | 1,

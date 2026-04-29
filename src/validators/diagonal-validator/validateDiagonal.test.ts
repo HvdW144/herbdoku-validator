@@ -1,13 +1,17 @@
 import { VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4 } from "../../util/test-util/sudokuStrings";
-import { validateDiagonals } from "./validateDiagonal";
+import { validateDiagonalsWrapper } from "./validateDiagonal";
 
 describe("validateDiagonals", () => {
   it("should return empty array for a valid 4x4 grid", () => {
     //act
-    const result = validateDiagonals(VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4, 4, {
-      main: true,
-      anti: true,
-    });
+    const result = validateDiagonalsWrapper(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
+      4,
+      {
+        main: true,
+        anti: true,
+      },
+    );
 
     //assert
     expect(result.isValid).toBe(true);
@@ -21,7 +25,7 @@ describe("validateDiagonals", () => {
     ]);
 
     // act
-    const result = validateDiagonals(grid, 4, {
+    const result = validateDiagonalsWrapper(grid, 4, {
       main: true,
       anti: true,
     });
@@ -43,7 +47,7 @@ describe("validateDiagonals", () => {
     ]);
 
     // act
-    const result = validateDiagonals(grid, 9, {
+    const result = validateDiagonalsWrapper(grid, 9, {
       main: true,
       anti: false,
     });
@@ -63,7 +67,7 @@ describe("validateDiagonals", () => {
     ]);
 
     // act
-    const result = validateDiagonals(grid, 9, {
+    const result = validateDiagonalsWrapper(grid, 9, {
       main: false,
       anti: true,
     });

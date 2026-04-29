@@ -1,6 +1,10 @@
 import type { IValidatorResult } from "../validatorResult.interface";
 import { findDuplicateIndexes } from "../validator-util/findDuplicateIndexes";
-import type { ValidatorFunction } from "../../types/validatorFunction.type";
+import type {
+  ValidatorFunctionWrapper,
+  ValidatorFunction,
+} from "../../types/validatorFunction.type";
+import { withStringInput } from "../../util/withStringInput.util";
 
 export const validateRows: ValidatorFunction = (
   grid: Uint8Array,
@@ -22,3 +26,6 @@ export const validateRows: ValidatorFunction = (
     invalidIndexes: duplicateIndexes,
   };
 };
+
+export const validateRowsWrapper: ValidatorFunctionWrapper =
+  withStringInput(validateRows);
