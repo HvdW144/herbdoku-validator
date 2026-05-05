@@ -4,6 +4,7 @@
 
 index.ts
 types.ts
+functions.ts
 
 .env
 .DS_Store
