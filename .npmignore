@@ -11,6 +11,7 @@ types.ts
 tsconfig.json
 tsup.config.ts
 jest.config.mjs
+eslint.config.js
 
 /.changeset
 /.github

@@ -129,5 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# jetbrains settings
+# Jetbrains settings
 .idea
+
+# Benchmarking tryout files (general benchmarking files should be in benchmark/)
+*.bench.*

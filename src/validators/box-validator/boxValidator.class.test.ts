@@ -1,17 +1,23 @@
 import { BoxValidator } from "../../../src/validators/box-validator/boxValidator.class";
+import {
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
+  VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
+} from "../../util/test-util/sudokuStrings";
 
 describe("BoxValidator", () => {
   it("validate - should return empty array for a valid 4x4 grid", () => {
     // arrange
     const boxValidator = new BoxValidator();
-    const sudokuString = "1234341223414123";
 
     // act
-    const result = boxValidator.validate(sudokuString, 4);
+    const result = boxValidator.validate(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4.join(""),
+      4,
+    );
 
     // assert
     expect(result.isValid).toBe(true);
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
   });
 
   it("validate - should return array with duplicates for an invalid 4x4 grid", () => {
@@ -24,20 +30,21 @@ describe("BoxValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([10, 15]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([10, 15]));
   });
 
   it("validate - should return empty array for a valid 9x9 grid", () => {
     // arrange
     const boxValidator = new BoxValidator();
-    const sudokuString =
-      "256473891974821536183569427691382754328754169547196283465237918732918645819645372";
 
     // act
-    const result = boxValidator.validate(sudokuString, 9);
+    const result = boxValidator.validate(
+      VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9.join(""),
+      9,
+    );
 
     // assert
-    expect(result.invalidIndexes).toStrictEqual([]);
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>());
     expect(result.isValid).toBe(true);
   });
 
@@ -52,18 +59,6 @@ describe("BoxValidator", () => {
 
     // assert
     expect(result.isValid).toBe(false);
-    expect(result.invalidIndexes).toStrictEqual([78, 80]);
-  });
-
-  it("validate - should throw an error for an invalid grid size", () => {
-    // arrange
-    const boxValidator = new BoxValidator();
-    const sudokuString = "12342341123";
-
-    // act
-    const act = () => boxValidator.validate(sudokuString, 4);
-
-    // assert
-    expect(act).toThrow("Invalid grid size for given string size.");
+    expect(result.invalidIndexes).toStrictEqual(new Set<number>([78, 80]));
   });
 });

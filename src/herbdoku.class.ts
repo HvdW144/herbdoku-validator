@@ -1,136 +1,97 @@
-import type { ValidatorResult } from "./validators/validatorResult.interface";
+import type { IValidatorResult } from "./validators/validatorResult.interface";
+import { ValidatorResult } from "./validators/validatorResult.class";
 import { sudokuStringToStringArray } from "./util/stringManipulation.util";
 import { BoxValidator } from "./validators/box-validator/boxValidator.class";
-import { ColumnValidator } from "./validators/column-validator/columnValidator.class";
-import { RowValidator } from "./validators/row-validator/rowValidator.class";
-import type { ValidatorResultTotal } from "./validators/validatorResultTotal.interface";
+import { validateColumns } from "./validators/column-validator/validateColumns";
+import { validateRows } from "./validators/row-validator/validateRows";
 import type { IHerbdoku } from "./herbdoku.interface";
 import type { KropkiDot } from "./validators/kropki-validator/kropkiDot.interface";
-import { KropkiValidator } from "./validators/kropki-validator/kropkiValidator.class";
+import { validateKropki } from "./validators/kropki-validator/validateKropki";
 import type { Thermometer } from "./validators/thermo-validator/thermometer.interface";
-import { ThermoValidator } from "./validators/thermo-validator/thermoValidator.class";
+import { validateDiagonals } from "./validators/diagonal-validator/validateDiagonal";
+import { stringToUint8Array } from "./util/stringToUint8Array.util";
+import { validateThermos } from "./validators/thermo-validator/validateThermos";
 
 export class ConcreteHerbdoku implements IHerbdoku {
+  /**
+   * @deprecated Use sudokuGrid instead. Will be removed in v1.0.0
+   */
   private sudokuString2D: string[][];
+  private sudokuGrid: Uint8Array;
   /**
    * The size of the grid. Default is 9. Supported sizes are 4 and 9 (open an issue if you need more sizes).
    */
   private gridSize: number;
-  private validatorResultTotal: ValidatorResultTotal;
+  private validatorResultTotal: ValidatorResult;
 
   constructor(sudokuString: string, gridSize: number = 9) {
+    if (sudokuString.length !== gridSize * gridSize) {
+      throw new Error("Invalid grid size for given sudokuString length.");
+    }
+
     this.gridSize = gridSize;
     this.sudokuString2D = sudokuStringToStringArray(sudokuString, gridSize);
-    this.validatorResultTotal = {
-      isValid: true,
-      messages: [],
-      invalidIndexes: [],
-    };
+    this.sudokuGrid = stringToUint8Array(sudokuString, gridSize);
+    this.validatorResultTotal = new ValidatorResult();
   }
 
-  /**
-   * This method should be called last to get the final result.
-   */
-  public build(): ValidatorResultTotal {
+  public build(): IValidatorResult {
     return this.validatorResultTotal;
   }
 
   //default validation
-  public validateDefault(): this {
-    return this.validateRows().validateColumns().validateBoxes();
+  public default(): this {
+    return this.rows().columns().boxes();
   }
 
-  public validateRows(): this {
-    const result = new RowValidator().validate(
-      this.sudokuString2D,
-      this.gridSize
-    );
-    this.appendValidatorResultTotal(result);
+  public rows(): this {
+    const result = validateRows(this.sudokuGrid, this.gridSize);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
-  public validateColumns(): this {
-    const result = new ColumnValidator().validate(
-      this.sudokuString2D,
-      this.gridSize
-    );
-    this.appendValidatorResultTotal(result);
+  public columns(): this {
+    const result = validateColumns(this.sudokuGrid, this.gridSize);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
-  public validateBoxes(): this {
+  public boxes(): this {
     const result = new BoxValidator().validate(
       this.getSudokuString(),
-      this.gridSize
+      this.gridSize,
     );
-    this.appendValidatorResultTotal(result);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
   //kropki validation
-  public validateKropki(kropkiDots: KropkiDot[]): this {
-    const result = new KropkiValidator(kropkiDots).validate(
-      this.getSudokuString(),
-      this.gridSize
-    );
-    this.appendValidatorResultTotal(result);
+  public kropki(kropkiDots: KropkiDot[]): this {
+    const result = validateKropki(this.sudokuGrid, this.gridSize, kropkiDots);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
   //thermo validation
-  public validateThermos(thermoArray: Thermometer[]): this {
-    const result = new ThermoValidator(thermoArray).validate(
-      this.getSudokuString()
-    );
-    this.appendValidatorResultTotal(result);
+  public thermos(thermoArray: Thermometer[]): this {
+    const result = validateThermos(this.sudokuGrid, this.gridSize, thermoArray);
+    this.validatorResultTotal.append(result);
     return this;
   }
 
-  //helper methods
-  private appendValidatorResultTotal(validatorResult: ValidatorResult) {
-    if (!validatorResult.isValid) {
-      this.validatorResultTotal.isValid = false;
-
-      const existingInvalidIndexes = new Set(
-        this.validatorResultTotal.invalidIndexes
-      );
-      const newInvalidIndexes = (validatorResult.invalidIndexes ?? []).filter(
-        (invalidIndex) => !existingInvalidIndexes.has(invalidIndex)
-      );
-      this.validatorResultTotal.invalidIndexes.push(...newInvalidIndexes);
-    }
-
-    if (validatorResult.messages) {
-      this.validatorResultTotal.messages.push(...validatorResult.messages);
-    }
+  public diagonals(main?: boolean, anti?: boolean): this {
+    const result = validateDiagonals(this.sudokuGrid, this.gridSize, {
+      main,
+      anti,
+    });
+    this.validatorResultTotal.append(result);
+    return this;
   }
 
-  //getters and setters
-  public getGridSize(): number {
-    return this.gridSize;
-  }
-
-  public getSudokuString2D(): string[][] {
-    return this.sudokuString2D;
-  }
-
+  /**
+   * @deprecated Use sudokuGrid instead. Will be removed in v1.0.0
+   */
   public getSudokuString(): string {
     return this.sudokuString2D.map((row) => row.join("")).join("");
-  }
-
-  public setSudokuString(sudokuString: string | string[][]): void {
-    if (typeof sudokuString === "string") {
-      this.sudokuString2D = sudokuStringToStringArray(
-        sudokuString,
-        this.gridSize
-      );
-    } else if (Array.isArray(sudokuString)) {
-      if (sudokuString.length !== this.gridSize ** 2) {
-        throw new Error("Invalid string length for given grid size.");
-      }
-      this.sudokuString2D = sudokuString;
-    } else {
-      throw new Error("Invalid input type for setSudokuString");
-    }
   }
 }

@@ -30,6 +30,7 @@
     /* If your code doesn't run in the DOM: */
     // "lib": ["es2022"],
 
-    "declaration": true
+    "declaration": true,
+    "types": ["jest"]
   }
 }
