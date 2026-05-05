@@ -25,4 +25,11 @@ export interface IHerbdoku {
    * @param anti - anti diagonal, from top right to bottom left, defaults to true
    */
   diagonals(main?: boolean, anti?: boolean): this;
+
+  /**
+   * Validates the given arrays are palindromes
+   * (reading the same from the beginning and the end).
+   * @param palindromeArray - the array with all palindromes, which will be validated individually
+   */
+  palindromes(palindromeArray: number[][]): this;
 }
