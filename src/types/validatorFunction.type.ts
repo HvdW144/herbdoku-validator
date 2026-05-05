@@ -5,3 +5,9 @@ export type ValidatorFunction<T = void> = (
   size: number,
   options: T,
 ) => IValidatorResult;
+
+export type ValidatorFunctionWrapper<T = void> = (
+  grid: string | Uint8Array,
+  size: number,
+  options: T,
+) => IValidatorResult;

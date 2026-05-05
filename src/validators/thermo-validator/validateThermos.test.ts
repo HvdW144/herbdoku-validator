@@ -1,4 +1,4 @@
-import { validateThermos } from "./validateThermos";
+import { validateThermosWrapper } from "./validateThermos";
 import type { Thermometer } from "./thermometer.interface";
 import {
   VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
@@ -15,7 +15,7 @@ describe("ThermoValidator", () => {
     ];
 
     // act
-    const result = validateThermos(
+    const result = validateThermosWrapper(
       VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
       4,
       thermoArray,
@@ -38,7 +38,7 @@ describe("ThermoValidator", () => {
     ]);
 
     // act
-    const result = validateThermos(sudokuGrid, 4, thermoArray);
+    const result = validateThermosWrapper(sudokuGrid, 4, thermoArray);
 
     // assert
     expect(result.isValid).toBe(false);
@@ -59,7 +59,7 @@ describe("ThermoValidator", () => {
     ];
 
     // act
-    const result = validateThermos(
+    const result = validateThermosWrapper(
       VALID_DEFAULT_SUDOKU_UINT8ARRAY_9X9,
       9,
       thermoArray,
@@ -90,7 +90,7 @@ describe("ThermoValidator", () => {
     ]);
 
     // act
-    const result = validateThermos(sudokuGrid, 9, thermoArray);
+    const result = validateThermosWrapper(sudokuGrid, 9, thermoArray);
 
     // assert
     expect(result.isValid).toBe(false);

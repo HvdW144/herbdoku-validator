@@ -1,4 +1,4 @@
-import { validateKropki } from "./validateKropki";
+import { validateKropkiWrapper } from "./validateKropki";
 import type { KropkiDot } from "./kropkiDot.interface";
 import { VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4 } from "../../util/test-util/sudokuStrings";
 
@@ -11,7 +11,7 @@ describe("KropkiValidator", () => {
     ];
 
     // act
-    const result = validateKropki(
+    const result = validateKropkiWrapper(
       VALID_DEFAULT_SUDOKU_UINT8ARRAY_4X4,
       4,
       kropkiDotsArray,
@@ -34,7 +34,7 @@ describe("KropkiValidator", () => {
     ]);
 
     // act
-    const result = validateKropki(grid, 4, kropkiDotsArray);
+    const result = validateKropkiWrapper(grid, 4, kropkiDotsArray);
 
     // assert
     expect(result.isValid).toBe(true);
@@ -54,7 +54,7 @@ describe("KropkiValidator", () => {
     ]);
 
     // act
-    const result = validateKropki(grid, 4, kropkiDotsArray);
+    const result = validateKropkiWrapper(grid, 4, kropkiDotsArray);
 
     // assert
     expect(result.isValid).toBe(false);
@@ -74,7 +74,7 @@ describe("KropkiValidator", () => {
     ]);
 
     // act
-    const result = validateKropki(grid, 4, kropkiDotsArray);
+    const result = validateKropkiWrapper(grid, 4, kropkiDotsArray);
 
     // assert
     expect(result.isValid).toBe(true);
