@@ -13,18 +13,8 @@ export const validatePalindromes: ValidatorFunction<number[][]> = (
   const duplicateIndexes: Set<number> = new Set();
 
   palindromes.forEach((palindrome) => {
-    const len = palindrome.length;
-
-    // going through only the first half
-    for (let i = 0; i < len / 2; i++) {
-      const startIndex = palindrome[i] as number;
-      const endIndex = palindrome[len - 1 - i] as number;
-
-      if (grid[startIndex] !== grid[endIndex]) {
-        duplicateIndexes.add(startIndex);
-        duplicateIndexes.add(endIndex);
-      }
-    }
+    const invalidIndexes = validatePalindrome(palindrome, grid);
+    invalidIndexes.forEach((index) => duplicateIndexes.add(index));
   });
 
   return {
@@ -36,3 +26,21 @@ export const validatePalindromes: ValidatorFunction<number[][]> = (
 
 export const validatePalindromesWrapper: ValidatorFunctionWrapper<number[][]> =
   withStringInput(validatePalindromes);
+
+const validatePalindrome = (
+  palindrome: number[],
+  grid: Uint8Array,
+): number[] => {
+  const len = palindrome.length;
+
+  // going through only the first half
+  for (let i = 0; i < len / 2; i++) {
+    const startIndex = palindrome[i] as number;
+    const endIndex = palindrome[len - 1 - i] as number;
+
+    if (grid[startIndex] !== grid[endIndex]) {
+      return [startIndex, endIndex];
+    }
+  }
+  return [];
+};
