@@ -11,6 +11,7 @@ import type { Thermometer } from "./validators/thermo-validator/thermometer.inte
 import { validateDiagonals } from "./validators/diagonal-validator/validateDiagonal";
 import { stringToUint8Array } from "./util/stringToUint8Array.util";
 import { validateThermos } from "./validators/thermo-validator/validateThermos";
+import { validatePalindromes } from "./validators/palindrome-validator/validatePalindromes";
 
 export class ConcreteHerbdoku implements IHerbdoku {
   /**
@@ -39,7 +40,6 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this.validatorResultTotal;
   }
 
-  //default validation
   public default(): this {
     return this.rows().columns().boxes();
   }
@@ -65,14 +65,12 @@ export class ConcreteHerbdoku implements IHerbdoku {
     return this;
   }
 
-  //kropki validation
   public kropki(kropkiDots: KropkiDot[]): this {
     const result = validateKropki(this.sudokuGrid, this.gridSize, kropkiDots);
     this.validatorResultTotal.append(result);
     return this;
   }
 
-  //thermo validation
   public thermos(thermoArray: Thermometer[]): this {
     const result = validateThermos(this.sudokuGrid, this.gridSize, thermoArray);
     this.validatorResultTotal.append(result);
@@ -84,6 +82,16 @@ export class ConcreteHerbdoku implements IHerbdoku {
       main,
       anti,
     });
+    this.validatorResultTotal.append(result);
+    return this;
+  }
+
+  public palindromes(palindromeArray: number[][]): this {
+    const result = validatePalindromes(
+      this.sudokuGrid,
+      this.gridSize,
+      palindromeArray,
+    );
     this.validatorResultTotal.append(result);
     return this;
   }

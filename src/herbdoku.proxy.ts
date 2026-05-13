@@ -54,6 +54,11 @@ export class HerbdokuProxy implements IHerbdoku {
     return this;
   }
 
+  public palindromes(palindromeArray: number[][]): this {
+    this.herbdoku.palindromes(palindromeArray);
+    return this;
+  }
+
   //--------------- deprecated methods ---------------
   /**
    * @deprecated - use default() instead, will be removed in v1.0.0
