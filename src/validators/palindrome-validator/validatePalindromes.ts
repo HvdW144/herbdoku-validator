@@ -32,15 +32,16 @@ const validatePalindrome = (
   grid: Uint8Array,
 ): number[] => {
   const len = palindrome.length;
+  const invalidIndexes: number[] = [];
 
   // going through only the first half
-  for (let i = 0; i < len / 2; i++) {
+  for (let i = 0; i < Math.floor(len / 2); i++) {
     const startIndex = palindrome[i] as number;
     const endIndex = palindrome[len - 1 - i] as number;
 
     if (grid[startIndex] !== grid[endIndex]) {
-      return [startIndex, endIndex];
+      invalidIndexes.push(startIndex, endIndex);
     }
   }
-  return [];
+  return invalidIndexes;
 };
